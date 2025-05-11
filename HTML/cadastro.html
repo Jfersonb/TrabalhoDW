@@ -140,13 +140,10 @@
           <p>Selecione um arquivo para conprovar sua vinculação</p>
         </div>
 
-        <div class="d-flex justify-content-center mb-2">
+        <div class="header-btn">
           <button type="submit" class="btn btn-outline-primary">
             Solicitar
           </button>
-        </div>
-
-        <div class="d-flex justify-content-center">
           <a class="btn btn-outline-warning" href="/HTML/index.html">Voltar</a>
         </div>
       </form>
@@ -165,8 +162,7 @@
         });
 
       // Validação do formulário
-      document
-        .getElementById("userType").selectedIndex = 0
+      document.getElementById("userType").selectedIndex = (0)
         .getElementById("loginForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
@@ -185,7 +181,7 @@
             return;
           }
 
-          if (!userType ||!nome || !email || !senha1 || !senha2 || !arquivo) {
+          if (!userType || !nome || !email || !senha1 || !senha2 || !arquivo) {
             alert("Todos os campos são obrigatórios.");
             return;
           }
