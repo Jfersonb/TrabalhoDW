@@ -5,3 +5,46 @@
   margin: 0;
   padding: 0;
 }
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
+}
+
+.d-flex {
+  gap: 10px;
+}
+
+.navbar {
+  padding: 10px 20px;
+}
+
+@media (min-height: 767px) {
+  .header-btn {
+    gap: 20px;
+  }
+  .input-group {
+    flex-direction: column;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .header-btn {
+    gap: 40px;
+  }
+}
+
+@media (min-height: 1024px) and (max-height: 1200px) {
+  .input-group {
+    flex-direction: row;
+  }
+}
+@media (min-height: 1201px) {
+  .input-group-text {
+    display: flex;
+    flex-direction: row;
+  }
+  .header-btn {
+    gap: 80px;
+  }
+}

@@ -1,70 +1,66 @@
 * {
   font-family: "Times New Roman", Times, serif;
   font-weight: 400;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* Centralizar a marca na navbar */
 .navbar-brand {
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.div-form-selet {
-  display: flex;
-  margin-right: auto;
-  margin-left: auto;
-  width: 80%;
-}
-.form-select {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.form-group {
+/* Ajuste no container do formulário */
+.div-form-selet, .form-group {
   display: flex;
   flex-direction: column;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  align-items: center;
   width: 80%;
-}
-.form-check {
-  display: flex;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 10px auto;
 }
 
+/* Ajuste para melhor exibição do select */
+.form-select {
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Estilização dos botões */
 .btn {
   display: flex;
   justify-content: center;
   margin: 10px;
 }
-@media (min-height: 780px) and (max-height: 1024px) {
+
+/* Media Queries para maior adaptação */
+@media (max-width: 767px) {
+  .div-form-selet, .form-group {
+    width: 90%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
   .btn {
-    display: flex;
-    justify-content: center;
     margin: 20px;
   }
 }
-@media (min-height: 1025px) and (max-height: 1200px) {
+
+@media (min-width: 1024px) and (max-width: 1200px) {
   .form-check {
-    display: flex;
-    margin-right: auto;
-    margin-left: auto;
-    gap: 300px;
+    gap: 200px;
   }
 }
-@media (min-height: 1201px) {
+
+@media (min-width: 1201px) {
   .navbar-brand {
     display: flex;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto;
   }
   .btn {
-    display: flex;
-    justify-content: 60vh;
     gap: 80px;
+    justify-content: center;
   }
 }
