@@ -1,58 +1,60 @@
-*{
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 400;
+* {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 400;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.header-h2{
-    margin-right: auto;
-    margin-left: auto;
+.navbar-brand {
+  margin: 0 auto;
+  text-align: center;
 }
 
-
-.header-btn{
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.header-btn {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;
 }
 
 .team-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
-@media (min-height:768px) and (max-height: 1023px){
-    .header-btn{
-    display: flex;
-    justify-content: center;
+
+@media (min-height: 768px) and (max-height: 1023px) {
+  .header-btn {
     gap: 40px;
+  }
 }
-}
-@media (min-height: 1024px) and (max-height: 1200px){
-    .header-btn{
-    display: flex;
-    justify-content: 20px;
+@media (min-height: 1024px) and (max-height: 1200px) {
+  .header-btn {
     gap: 60px;
+  }
 }
-}
-@media (min-height: 1201px){
-    .header-btn{
-    display: flex;
-    justify-content: 20px;
+@media (min-height: 1201px) {
+  .navbar-brand {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .header-btn {
     gap: 80px;
-}
+  }
 }
 
 
-.footer{
-    display: flex;
-    justify-content: left;
-    border-top: 1px solid black;
-    padding: 10px;
-    margin: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  border-top: 2px solid black;
+  padding: 10px;
+  margin: 1px;
+}
+.footer-btn{
+    margin-left: 15px;
 }
