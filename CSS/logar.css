@@ -1,57 +1,56 @@
-*{
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 400;
+* {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 400;
 }
 
-.header-h2{
-    margin-right: auto;
-    margin-left: auto;
+.header-h2 {
+  margin-right: auto;
+  margin-left: auto;
 }
 
-
-.header-btn{
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.header-btn {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .team-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
-@media (min-height:768px) and (max-height: 1023px){
-    .header-btn{
+@media (min-height: 768px) and (max-height: 1023px) {
+  .header-btn {
     display: flex;
     justify-content: center;
     gap: 40px;
+  }
 }
-}
-@media (min-height: 1024px) and (max-height: 1200px){
-    .header-btn{
+@media (min-height: 1024px) and (max-height: 1200px) {
+  .header-btn {
     display: flex;
     justify-content: 20px;
     gap: 60px;
+  }
 }
-}
-@media (min-height: 1201px){
-    .header-btn{
+@media (min-height: 1201px) {
+  .header-btn {
     display: flex;
     justify-content: 20px;
     gap: 80px;
-}
+  }
 }
 
-.footer{
-    display: flex;
-    justify-content: left;
-    border-top: 1px solid black;
-    padding: 10px;
-    margin: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.footer {
+  display: flex;
+  justify-content: left;
+  border-top: 1px solid black;
+  padding: 10px;
+  margin: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
