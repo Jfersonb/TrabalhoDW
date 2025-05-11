@@ -6,7 +6,7 @@
   padding: 0;
 }
 
-/* Centralizar o nome da marca na navbar */
+/* Centralizar a marca na navbar */
 .navbar-brand {
   margin: 0 auto;
   text-align: center;
@@ -21,19 +21,40 @@
   margin: 20px auto;
 }
 
-/* Cards alinhados e adaptáveis */
+/* Ajuste dos cards */
 .team-cards {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  width: 100%;
   padding: 10px;
 }
 
-/* Ajuste de espaçamentos em telas menores */
+/* Garantir espaçamentos consistentes */
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Rodapé */
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  border-top: 2px solid black;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.footer-btn {
+  margin-left: 15px;
+}
+
+/* Responsividade */
 @media (max-width: 767px) {
   .header-btn {
-    gap: 20px;
     flex-direction: column;
+    gap: 20px;
   }
   .team-cards {
     flex-direction: column;
@@ -61,17 +82,4 @@
   .header-btn {
     gap: 80px;
   }
-}
-
-/* Estilização do rodapé */
-.footer {
-  display: flex;
-  justify-content: flex-start;
-  border-top: 2px solid black;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.footer-btn {
-  margin-left: 15px;
 }
