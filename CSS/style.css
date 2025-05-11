@@ -1,6 +1,41 @@
 
 
 .header-h2{
-    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
 
+
+.main{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.header-btn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media (min-height:768px) and (max-height: 1023px){
+    .header-btn{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+}
+@media (min-height: 1024px) and (max-height: 1200px){
+    .header-btn{
+    display: flex;
+    justify-content: 20px;
+    gap: 60px;
+}
+}
+@media (min-height: 1201px){
+    .header-btn{
+    display: flex;
+    justify-content: 20px;
+    gap: 80px;
+}
 }
