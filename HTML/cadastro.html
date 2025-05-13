@@ -1,67 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/CSS/cadastro.css" />
-    <title>Cadastro</title>
-  </head>
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/HTML/index.html">Vida Serena</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  >Dropdown</a
-                >
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
 
-    <main class="container mt-4">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/CSS/cadastro.css" />
+  <title>Cadastro</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/HTML/index.html">Vida Serena</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Dropdown</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container mt-4">
+
+    <form id="loginForm">
       <div class="div-form-selet mb-3">
         <select class="form-select" id="userType" required>
           <option value="0" selected>Selecione seu tipo de usuário</option>
@@ -72,134 +62,151 @@
           <option value="5">Admin</option>
         </select>
       </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputtxt">Nome</label>
+        <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu nome completo" required />
+      </div>
 
-      <form id="loginForm">
+      <div class="form-group mb-3">
+        <label for="exampleInputEmail1">E-mail</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu e-mail" required />
+      </div>
+
+      <div class="d-none" id="dadosEnfermeiro">
+        <h4>dados enfermeiro</h4>
         <div class="form-group mb-3">
           <label for="exampleInputtxt">Nome</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleInputtxt"
-            placeholder="Informe seu nome completo"
-            required
-          />
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu nome completo"
+            required />
         </div>
 
         <div class="form-group mb-3">
           <label for="exampleInputEmail1">E-mail</label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            placeholder="Informe seu e-mail"
-            required
-          />
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu e-mail" required />
         </div>
 
-        <div class="form-group mb-3">
-          <label for="inputPassword1">Senha</label>
-          <input
-            type="password"
-            id="inputPassword1"
-            class="form-control"
-            placeholder="Crie uma senha"
-            required
-          />
+        <div class="form-group mb-3 d-none">
+          <label for="exampleInputEmail1">CRF</label>
+          <input type="text" class="form-control" id="crf" placeholder="Informe o CRF" />
         </div>
+      </div>
 
-        <div class="form-group mb-3">
-          <label for="inputPassword2">Repita a Senha</label>
-          <input
-            type="password"
-            id="inputPassword2"
-            class="form-control"
-            placeholder="Repita a senha"
-            required
-          />
-        </div>
 
-        <div id="passwordHelpBlock" class="form-text mb-3">
-          Sua senha deve ter pelo menos 8 caracteres.
-        </div>
+      <div class="form-group mb-3">
+        <label for="inputPassword1">Senha</label>
+        <input type="password" id="inputPassword1" class="form-control" placeholder="Crie uma senha" required />
+      </div>
 
-        <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="showPassword" />
-          <label class="form-check-label" for="showPassword"
-            >Mostrar senha</label
-          >
-        </div>
+      <div class="form-group mb-3">
+        <label for="inputPassword2">Repita a Senha</label>
+        <input type="password" id="inputPassword2" class="form-control" placeholder="Repita a senha" required />
+      </div>
 
-        <div class="input-group mb-3">
-          <input
-            type="file"
-            class="form-control"
-            id="inputGroupFile02"
-            required
-          />
-          <label class="input-group-text" for="inputGroupFile02">Upload</label>
-          <p>Selecione um arquivo para conprovar sua vinculação</p>
-        </div>
+      <div id="passwordHelpBlock" class="form-text mb-3">
+        Sua senha deve ter pelo menos 8 caracteres.
+      </div>
 
-        <div class="header-btn">
-          <button type="submit" class="btn btn-outline-primary">
-            Solicitar
-          </button>
-          <a class="btn btn-outline-warning" href="/HTML/index.html">Voltar</a>
-        </div>
-      </form>
-    </main>
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="showPassword" />
+        <label class="form-check-label" for="showPassword">Mostrar senha</label>
+      </div>
 
-    <script>
-      // Mostrar ou ocultar senha
-      document
-        .getElementById("showPassword")
-        .addEventListener("change", function () {
-          const pass1 = document.getElementById("inputPassword1");
-          const pass2 = document.getElementById("inputPassword2");
-          const type = this.checked ? "text" : "password";
-          pass1.type = type;
-          pass2.type = type;
-        });
+      <div class="input mb-3">
+        <input type="file" class="form-control" id="inputGroupFile02" required />
+        <p>Selecione um arquivo para conprovar sua vinculação</p>
+      </div>
 
-      // Validação do formulário
-      document.getElementById("userType").selectedIndex = (0)
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+      <div class="header-btn">
+        <button type="submit" class="btn btn-outline-primary">
+          Solicitar
+        </button>
+        <a class="btn btn-outline-warning" href="/HTML/index.html">Voltar</a>
+      </div>
+    </form>
+  </main>
 
-          const userType = document.getElementById("userType").value;
-          const nome = document.getElementById("exampleInputtxt").value.trim();
-          const email = document
-            .getElementById("exampleInputEmail1")
-            .value.trim();
-          const senha1 = document.getElementById("inputPassword1").value;
-          const senha2 = document.getElementById("inputPassword2").value;
-          const arquivo = document.getElementById("inputGroupFile02").files[0];
+  <script>
 
-          if (userType === "0") {
-            alert("Por favor, selecione o tipo de usuário.");
-            return;
-          }
+    let selectType = document.getElementById("userType")
 
-          if (!userType || !nome || !email || !senha1 || !senha2 || !arquivo) {
-            alert("Todos os campos são obrigatórios.");
-            return;
-          }
+    selectType.onchange = function () {
 
-          if (senha1 !== senha2) {
-            alert("As senhas não coincidem.");
-            return;
-          }
+      //Escondo todos os opcionais
+      document.getElementById("dadosEnfermeiro").classList.add("d-none")
 
-          if (senha1.length < 8) {
-            alert("A senha deve conter no mínimo 8 caracteres.");
-            return;
-          }
+      let type = parseInt(selectType.value);
 
-          // Tudo certo
-          alert("Solicitação realizada com sucesso!");
-          this.reset();
-        });
-    </script>
-  </body>
+      switch (type) {
+        //Enfermeiro
+        case 3:
+          //Exibo o bloco de dados do enfermeiro  
+          document.getElementById("dadosEnfermeiro").classList.remove("d-none")
+          break;
+
+        case 2:
+
+          break;
+
+        default:
+          console.log(type, typeof type)
+
+      }
+
+    }
+
+    // Mostrar ou ocultar senha
+    document
+      .getElementById("showPassword")
+      .addEventListener("change", function () {
+        const pass1 = document.getElementById("inputPassword1");
+        const pass2 = document.getElementById("inputPassword2");
+        const type = this.checked ? "text" : "password";
+        pass1.type = type;
+        pass2.type = type;
+      });
+
+    // Validação do formulário
+    document.getElementById("loginForm").onsubmit = function (e) {
+        e.preventDefault();
+
+        const userType = document.getElementById("userType").value;
+        const nome = document.getElementById("exampleInputtxt").value.trim();
+        const email = document
+          .getElementById("exampleInputEmail1")
+          .value.trim();
+        const senha1 = document.getElementById("inputPassword1").value;
+        const senha2 = document.getElementById("inputPassword2").value;
+        const arquivo = document.getElementById("inputGroupFile02").files[0];
+
+        if (userType === "0") {
+          alert("Por favor, selecione o tipo de usuário.");
+          return;
+        }
+
+        if (!userType || !nome || !email || !senha1 || !senha2 || !arquivo) {
+          alert("Todos os campos são obrigatórios.");
+          return;
+        }
+
+        if (senha1 !== senha2) {
+          alert("As senhas não coincidem.");
+          return;
+        }
+
+        if (senha1.length < 8) {
+          alert("A senha deve conter no mínimo 8 caracteres.");
+          return;
+        }
+
+        // Tudo certo
+        alert("Solicitação realizada com sucesso!");
+        this.reset();
+      };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+    crossorigin="anonymous"></script>
+</body>
+
+
 </html>
