@@ -20,9 +20,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"></a>
-            </li>
+            
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
@@ -59,7 +57,7 @@
           <option value="2">Cuidador(a)</option>
           <option value="3">Enfermeiro(a)</option>
           <option value="4">Médico(a)</option>
-          <option value="5">Admin</option>
+          <!-- <option value="5">Admin</option> -->
         </select>
       </div>
       <div class="form-group mb-3">
@@ -73,24 +71,51 @@
       </div>
 
       <div class="d-none" id="dadosEnfermeiro">
-        <h4>dados enfermeiro</h4>
+        <h4>Dados obrigatórios do Enfermeiro</h4>
         <div class="form-group mb-3">
-          <label for="exampleInputtxt">Nome</label>
-          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu nome completo"
-            required />
+          <label for="exampleInputtxt">COREN</label>
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu COREN"
+             />
         </div>
-
         <div class="form-group mb-3">
-          <label for="exampleInputEmail1">E-mail</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu e-mail" required />
-        </div>
-
-        <div class="form-group mb-3 d-none">
-          <label for="exampleInputEmail1">CRF</label>
-          <input type="text" class="form-control" id="crf" placeholder="Informe o CRF" />
+          <label for="exampleInputtxt">CIP</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Informe seu CIP" />
         </div>
       </div>
 
+      <div class="d-none" id="dadosFamiliar">
+        <h4>Dados obrigatórios do Familiar</h4>
+        <div class="form-group mb-3">
+          <label for="exampleInputtxt">Tipo de parentesco</label>
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu parentesco"/>
+        </div>
+      </div>
+
+      <div class="d-none" id="dadosCuidador">
+        <h4>Dados obrigatórios do Cuidador</h4>
+        <div class="form-group mb-3">
+          <label for="exampleInputtxt">Cursos</label>
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe cursos realizados caso tenha"/>
+        </div>
+      </div>
+
+      <div class="d-none" id="dadosMedico">
+        <h4>Dados obrigatórios do Médico</h4>
+        <div class="form-group mb-3">
+          <label for="exampleInputtxt">CRM</label>
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu CRM"/>
+        </div>
+
+      </div>
+
+      <!-- <div class="d-none" id="dadosAdmin">
+        <h4>Dados obrigatórios do Administrador</h4>
+        <div class="form-group mb-3">
+          <label for="exampleInputtxt">COREN</label>
+          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu COREN"
+            required />
+        </div>
+      </div> -->
 
       <div class="form-group mb-3">
         <label for="inputPassword1">Senha</label>
@@ -113,8 +138,8 @@
 
       <div class="input mb-3">
         <input type="file" class="form-control" id="inputGroupFile02" required />
-        <p>Selecione um arquivo para conprovar sua vinculação</p>
       </div>
+      <p>Selecione um arquivo para conprovação</p>
 
       <div class="header-btn">
         <button type="submit" class="btn btn-outline-primary">
@@ -132,20 +157,37 @@
     selectType.onchange = function () {
 
       //Escondo todos os opcionais
+      document.getElementById("dadosFamiliar").classList.add("d-none")
+      document.getElementById("dadosCuidador").classList.add("d-none")
       document.getElementById("dadosEnfermeiro").classList.add("d-none")
+      //document.getElementById("dadosAdmin").classList.add("d-none")
 
       let type = parseInt(selectType.value);
 
       switch (type) {
         //Enfermeiro
-        case 3:
-          //Exibo o bloco de dados do enfermeiro  
+
+          case 1:
+        //Exibo o bloco de dados do familiar
+          document.getElementById("dadosFamiliar").classList.remove("d-none")
+          break;
+
+          case 2:
+        //Exibo o bloco de dados do enfermeiro
+          document.getElementById("dadosCuidador").classList.remove("d-none")
+          break;
+          case 3:
+          //Exibo o bloco de dados do cuidador
           document.getElementById("dadosEnfermeiro").classList.remove("d-none")
           break;
-
-        case 2:
-
+          case 4:
+        //Exibo o bloco de dados do enfermeiro
+          document.getElementById("dadosMedico").classList.remove("d-none")
           break;
+          case 5:
+        //Exibo o bloco de dados do enfermeiro
+          //document.getElementById("dadosAdmin").classList.remove("d-none")
+          //break;
 
         default:
           console.log(type, typeof type)
@@ -166,7 +208,7 @@
       });
 
     // Validação do formulário
-    document.getElementById("loginForm").onsubmit = function (e) {
+      document.getElementById("loginForm").onsubmit = function (e) {
         e.preventDefault();
 
         const userType = document.getElementById("userType").value;
@@ -206,7 +248,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>
+
+
+
 </body>
-
-
 </html>
