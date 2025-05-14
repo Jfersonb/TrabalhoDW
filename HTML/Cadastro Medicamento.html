@@ -74,157 +74,91 @@
     </header>
 
     <main class="container mt-4">
-      <form id="loginForm">
-        <div class="div-form-selet mb-3">
-          <select class="form-select" id="userType" required>
-            <option value="0" selected>
-              Selecione seu tipo de medicamento
-            </option>
-            <option value="1">Sem tarja</option>
-            <option value="2">Tarja amarela</option>
-            <option value="3">Tarja vermelha</option>
-            <option value="4">Tarja preta</option>
-            <!-- <option value="5">Admin</option> -->
-
-            <!-- Sem tarja: são medicamentos isentos de prescrição (MIP), ou seja, não necessitam de receita médica para que sejam vendidos. No entanto,
-            os MIPs devem cumprir com todos os demais requisitos de qualidade, segurança e eficácia exigidos pela legislação sanitária em vigor. Estão descritos
-            na Lista de Medicamentos Isentos de Prescrição (LMIP) e são indicados para tratamento de doenças não graves e com evolução lenta ou inexistente;
-
-            Tarja vermelha: são remédios que oferecem risco intermediário de efeitos adversos ao usuário e devem ser prescritos pelo profissional de saúde. Dividem-se
-            em duas subcategorias: sem retenção de receita, ou seja, a farmácia não fica com a prescrição após a venda e com retenção, quando a farmácia retém a receita
-            por se tratar de medicamentos sujeitos a controle especial. A embalagem desse tipo de medicamento tem de informar a necessidade da prescrição médica e da retenção
-            de receita, quando for o caso – além dos riscos.
-
-            Tarja preta: são medicamentos que precisam de controle maior para serem comercializados. Geralmente, são fármacos que afetam o sistema nervoso central, podendo causar
-            dependência ou levar à morte e que só podem ser adquiridos mediante apresentação de prescrição médica que deve ser retida com o farmacêutico.
-
-            Tarja amarela: identifica o grupo dos medicamentos genéricos. Além da tarja amarela, a embalagem pode conter, também, a tarja vermelha ou preta, de acordo com
-            o tipo de controle exigido. -->
-          </select>
-        </div>
-        <div class="form-group mb-3">
-          <label for="exampleInputtxt">Nome</label>
+      <h2>Cadastro de Medicamentos</h2>
+      <form id="formMedicamento">
+        <div class="mb-3">
+          <label for="nomeMedicamento" class="form-label"
+            >Nome do Medicamento</label
+          >
           <input
             type="text"
             class="form-control"
-            id="exampleInputtxt"
-            placeholder="Informe seu nome completo"
+            id="nomeMedicamento"
             required
           />
         </div>
 
-        <div class="form-group mb-3">
-          <label for="exampleInputEmail1">E-mail</label>
+        <div class="mb-3">
+          <label class="form-label">Tipo de Medicamento</label>
+          <div class="form-check">
+            <input
+              class="form-check-input tipo-medicamento"
+              type="checkbox"
+              id="semTarja"
+              name="tipoMedicamento"
+              value="Sem tarja"
+            />
+            <label class="form-check-label" for="semTarja">Sem tarja</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input tipo-medicamento"
+              type="checkbox"
+              id="tarjaAmarela"
+              name="tipoMedicamento"
+              value="Tarja amarela"
+            />
+            <label class="form-check-label" for="tarjaAmarela"
+              >Tarja amarela</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input tipo-medicamento"
+              type="checkbox"
+              id="tarjaVermelha"
+              name="tipoMedicamento"
+              value="Tarja vermelha"
+            />
+            <label class="form-check-label" for="tarjaVermelha"
+              >Tarja vermelha</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input tipo-medicamento"
+              type="checkbox"
+              id="tarjaPreta"
+              name="tipoMedicamento"
+              value="Tarja preta"
+            />
+            <label class="form-check-label" for="tarjaPreta">Tarja preta</label>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="quantidadeCaixas" class="form-label"
+            >Quantidade de caixas</label>
           <input
-            type="email"
+            type="number"
             class="form-control"
-            id="exampleInputEmail1"
-            placeholder="Informe seu e-mail"
+            id="quantidadeCaixas"
+            min="1"
             required
           />
         </div>
 
-        <div class="d-none" id="dadosEnfermeiro">
-          <h4>Dados obrigatórios do Enfermeiro</h4>
-          <div class="form-group mb-3">
-            <label for="exampleInputtxt">COREN</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputtxt"
-              placeholder="Informe seu COREN"
-            />
-          </div>
-          <div class="form-group mb-3">
-            <label for="exampleInputtxt">CIP</label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              placeholder="Informe seu CIP"
-            />
-          </div>
-        </div>
-
-        <div class="d-none" id="dadosFamiliar">
-          <h4>Dados obrigatórios do Familiar</h4>
-          <div class="form-group mb-3">
-            <label for="exampleInputtxt">Tipo de parentesco</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputtxt"
-              placeholder="Informe seu parentesco"
-            />
-          </div>
-        </div>
-
-        <div class="d-none" id="dadosCuidador">
-          <h4>Dados obrigatórios do Cuidador</h4>
-          <div class="form-group mb-3">
-            <label for="exampleInputtxt">Cursos</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputtxt"
-              placeholder="Informe cursos realizados caso tenha"
-            />
-          </div>
-        </div>
-
-        <div class="d-none" id="dadosMedico">
-          <h4>Dados obrigatórios do Médico</h4>
-          <div class="form-group mb-3">
-            <label for="exampleInputtxt">CRM</label>
-            <input
-              type="text"
-              class="form-control"
-              id="exampleInputtxt"
-              placeholder="Informe seu CRM"
-            />
-          </div>
-        </div>
-
-        <!-- <div class="d-none" id="dadosAdmin">
-        <h4>Dados obrigatórios do Administrador</h4>
-        <div class="form-group mb-3">
-          <label for="exampleInputtxt">COREN</label>
-          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu COREN"
-            required />
-        </div>
-      </div> -->
-
-        <div class="form-group mb-3">
-          <label for="inputPassword1">Senha</label>
-          <input
-            type="password"
-            id="inputPassword1"
-            class="form-control"
-            placeholder="Crie uma senha"
-            required
-          />
-        </div>
-
-        <div class="form-group mb-3">
-          <label for="inputPassword2">Repita a Senha</label>
-          <input
-            type="password"
-            id="inputPassword2"
-            class="form-control"
-            placeholder="Repita a senha"
-            required
-          />
-        </div>
-
-        <div id="passwordHelpBlock" class="form-text mb-3">
-          Sua senha deve ter pelo menos 8 caracteres.
-        </div>
-
-        <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="showPassword" />
-          <label class="form-check-label" for="showPassword"
-            >Mostrar senha</label
+        <div class="mb-3">
+          <label for="quantidadePorCaixa" class="form-label"
+            >Quantidade por caixa</label
           >
+          <input
+            type="number"
+            class="form-control"
+            id="quantidadePorCaixa"
+            min="1"
+            required
+          />
         </div>
 
         <div class="input mb-3">
@@ -235,110 +169,54 @@
             required
           />
         </div>
-        <p>Selecione um arquivo para conprovação</p>
+        <p>Selecione a nota fiscal de compra</p>
 
         <div class="header-btn">
           <button type="submit" class="btn btn-outline-primary">
-            Solicitar
+            Solicitar cadastramento
           </button>
           <a class="btn btn-outline-warning" href="/HTML/index.html">Voltar</a>
         </div>
       </form>
     </main>
 
-    <script>
-      let selectType = document.getElementById("userType");
+<script>
+  // Permitir apenas uma checkbox marcada
+  const checkboxes = document.querySelectorAll(".tipo-medicamento");
 
-      selectType.onchange = function () {
-        //Escondo todos os opcionais
-        document.getElementById("dadosFamiliar").classList.add("d-none");
-        document.getElementById("dadosCuidador").classList.add("d-none");
-        document.getElementById("dadosEnfermeiro").classList.add("d-none");
-        //document.getElementById("dadosAdmin").classList.add("d-none")
-
-        let type = parseInt(selectType.value);
-
-        switch (type) {
-          //Enfermeiro
-
-          case 1:
-            //Exibo o bloco de dados do familiar
-            document.getElementById("dadosFamiliar").classList.remove("d-none");
-            break;
-
-          case 2:
-            //Exibo o bloco de dados do enfermeiro
-            document.getElementById("dadosCuidador").classList.remove("d-none");
-            break;
-          case 3:
-            //Exibo o bloco de dados do cuidador
-            document
-              .getElementById("dadosEnfermeiro")
-              .classList.remove("d-none");
-            break;
-          case 4:
-            //Exibo o bloco de dados do enfermeiro
-            document.getElementById("dadosMedico").classList.remove("d-none");
-            break;
-          case 5:
-          //Exibo o bloco de dados do enfermeiro
-          //document.getElementById("dadosAdmin").classList.remove("d-none")
-          //break;
-
-          default:
-            console.log(type, typeof type);
-        }
-      };
-
-      // Mostrar ou ocultar senha
-      document
-        .getElementById("showPassword")
-        .addEventListener("change", function () {
-          const pass1 = document.getElementById("inputPassword1");
-          const pass2 = document.getElementById("inputPassword2");
-          const type = this.checked ? "text" : "password";
-          pass1.type = type;
-          pass2.type = type;
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
+      if (this.checked) {
+        checkboxes.forEach((cb) => {
+          if (cb !== this) cb.checked = false;
         });
+      }
+    });
+  });
 
-      // Validação do formulário
-      document.getElementById("loginForm").onsubmit = function (e) {
-        e.preventDefault();
+  // Envio do formulário
+  document.getElementById("formMedicamento").onsubmit = function (e) {
+    e.preventDefault();
 
-        const userType = document.getElementById("userType").value;
-        const nome = document.getElementById("exampleInputtxt").value.trim();
-        const email = document
-          .getElementById("exampleInputEmail1")
-          .value.trim();
-        const senha1 = document.getElementById("inputPassword1").value;
-        const senha2 = document.getElementById("inputPassword2").value;
-        const arquivo = document.getElementById("inputGroupFile02").files[0];
+    const nome = document.getElementById("nomeMedicamento").value.trim();
+    const tipoSelecionado = Array.from(checkboxes).find(cb => cb.checked);
+    const qtdCaixas = document.getElementById("quantidadeCaixas").value.trim();
+    const qtdPorCaixa = document.getElementById("quantidadePorCaixa").value.trim();
+    const notaFiscal = document.getElementById("inputGroupFile02").files[0];
 
-        if (userType === "0") {
-          alert("Por favor, selecione o tipo de usuário.");
-          return;
-        }
+    if (!nome || !tipoSelecionado || !qtdCaixas || !qtdPorCaixa || !notaFiscal) {
+      alert("Por favor, preencha todos os campos e selecione o tipo de medicamento.");
+      return;
+    }
 
-        if (!userType || !nome || !email || !senha1 || !senha2 || !arquivo) {
-          alert("Todos os campos são obrigatórios.");
-          return;
-        }
+    alert("Solicitação realizada com sucesso!");
 
-        if (senha1 !== senha2) {
-          alert("As senhas não coincidem.");
-          return;
-        }
+    // Limpa os campos do formulário
+    this.reset();
+  };
+</script>
 
-        if (senha1.length < 8) {
-          alert("A senha deve conter no mínimo 8 caracteres.");
-          return;
-        }
 
-        // Tudo certo
-        alert("Solicitação realizada com sucesso!");
-        this.reset();
-      };
-    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
