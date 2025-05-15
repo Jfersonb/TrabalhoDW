@@ -51,7 +51,7 @@
   </header>
 
   <main class="container mt-4">
-    <div class="div-form-selet">
+    <!-- <div class="div-form-selet">
       <select class="form-select" id="userType" aria-label="Default select example">
         <option value="0" selected>Selecione seu tipo de usuário</option>
         <option value="1">Familiar</option>
@@ -60,7 +60,7 @@
         <option value="4">Médico(a)</option>
         <option value="5">Admin</option>
       </select>
-    </div>
+    </div> -->
 
     <form id="loginForm">
       <div class="form-group">
@@ -69,10 +69,12 @@
           placeholder="Informe seu e-mail cadastrado" />
 
       </div>
+
       <div class="form-group">
         <label for="exampleInputPassword1">Senha</label>
         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" />
       </div>
+
       <div class="form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Verificar</label>
@@ -91,6 +93,7 @@
           <a type="button" class="btn btn-outline-warning" href="/HTML/index.html">Voltar</a>
         </div>
       </div>
+      
   </main>
   </form>
   <footer class="footer"></footer>
@@ -107,17 +110,17 @@
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const userTypeSelect = document.getElementById('userType');
-      const userType = userTypeSelect.value;
-      const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
+      //const userTypeSelect = document.getElementById('userType');
+      //const userType = userTypeSelect.value;
+      //const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
       const email = document.getElementById('exampleInputEmail1').value.trim();
       const senha = document.getElementById('exampleInputPassword1').value.trim();
 
       // 1. Verifica se o tipo de usuário foi selecionado
-      if (userType === "0") {
-        alert("Por favor, selecione o tipo de usuário.");
-        return;
-      }
+      //if (userType === "0") {
+       // alert("Por favor, selecione o tipo de usuário.");
+        //return;
+     // }
 
       // 2. Verifica se o e-mail foi informado
       if (email === "") {
@@ -132,7 +135,8 @@
       }
 
       // Tudo certo
-      alert(`Login realizado com sucesso!\nUsuário: ${userText}\nE-mail: ${email}`);
+      alert(`Login realizado com sucesso!\nUsuário:\nE-mail: ${email}`);
+      // ${userText} caso precise adicionar seleção de usuario
       this.reset();
     });
   </script>
