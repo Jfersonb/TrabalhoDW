@@ -83,7 +83,7 @@
             <option value="2">Cuidador(a)</option>
             <option value="3">Enfermeiro(a)</option>
             <option value="4">Médico(a)</option>
-            <!-- <option value="5">Admin</option> -->
+            <option value="5">Idoso</option>
           </select>
         </div>
         <div class="form-group mb-3">
@@ -193,14 +193,54 @@
           </div>
         </div>
 
-        <!-- <div class="d-none" id="dadosAdmin">
-        <h4>Dados obrigatórios do Administrador</h4>
-        <div class="form-group mb-3">
-          <label for="exampleInputtxt">COREN</label>
-          <input type="text" class="form-control" id="exampleInputtxt" placeholder="Informe seu COREN"
-            required />
+        <div class="d-none" id="dadosIdoso">
+          <h4>Dados obrigatórios do Idoso</h4>
+          <div class="form-group mb-3">
+            <label for="exampleInputtxt">Responsável legal</label>
+            <input
+              type="text"
+              class="form-control"
+              id="responsavelLegal"
+              placeholder="Informe o nome do responsável legal"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="exampleInputtxt">Condições médicas importantes</label>
+            <input
+              type="text"
+              class="form-control"
+              id="condicaoMedicaImportante"
+              placeholder="Informe as condições médicas importantes"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="exampleInputtxt">Medicamentos de uso</label>
+            <input
+              type="text"
+              class="form-control"
+              id="medicamentosUso"
+              placeholder="Informe os medicamentos de uso do idoso"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="exampleInputtxt">Restrições alimentar</label>
+            <input
+              type="text"
+              class="form-control"
+              id="resticaoAlimentar"
+              placeholder="Informe as restições alimentares"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="exampleInputtxt">Alergias</label>
+            <input
+              type="text"
+              class="form-control"
+              id="alergias"
+              placeholder="Informe as alergias dos idoso"
+            />
+          </div>
         </div>
-      </div> -->
 
         <div class="form-group mb-3">
           <label for="inputPassword1">Senha</label>
@@ -283,7 +323,7 @@
         document.getElementById("dadosCuidador").classList.add("d-none");
         document.getElementById("dadosEnfermeiro").classList.add("d-none");
         document.getElementById("dadosMedico").classList.add("d-none");
-        //document.getElementById("dadosAdmin").classList.add("d-none")
+        document.getElementById("dadosIdoso").classList.add("d-none")
 
         const type = parseInt(this.value);
 
@@ -310,9 +350,9 @@
             document.getElementById("dadosMedico").classList.remove("d-none");
             break;
           case 5:
-          //Exibo o bloco de dados do enfermeiro
-          //document.getElementById("dadosAdmin").classList.remove("d-none")
-          //break;
+          //Exibo o bloco de dados do idoso
+            document.getElementById("dadosIdoso").classList.remove("d-none")
+          break;
 
           default:
             console.log(type, typeof type);
