@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
-  <link rel="stylesheet" href="/src/CSS/ReserSenha.css" />
-  <title>Esqueci a senha</title>
+  <link rel="stylesheet" href="/src/CSS/Logar.css" />
+  <title>Logar</title>
 </head>
 
 <body>
@@ -24,15 +25,12 @@
             <li class="nav-item">
               <a class="nav-link" href="/src/Index.html">Página principal</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/src/HTML/Logar.html">Logar</a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">Cadastros</a>
               <ul class="dropdown-menu text-center">
-                <li><a class="dropdown-item" href="/src/HTML/CadastroUsuario.html">Novo Usuário</a></li>
-                <li><a class="dropdown-item" href="/src/HTML/CadastroMedicamentos.html">Cadastro Medicamentos</a></li>
+                <li><a class="dropdown-item" href="/src/PHP/CadastroUsuario.php">Novo Usuário</a></li>
+                <li><a class="dropdown-item" href="/src/PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a></li>
                 <!-- <li>
                   <hr class="dropdown-divider" />
                 </li> -->
@@ -54,19 +52,18 @@
   </header>
 
   <main class="container mt-4">
-    <div class="div-form-selet">
+    <!-- <div class="div-form-selet">
       <select class="form-select" id="userType" aria-label="Default select example">
-
-        <option selected>Selecione seu tipo de usuário</option>
+        <option value="0" selected>Selecione seu tipo de usuário</option>
         <option value="1">Familiar</option>
         <option value="2">Cuidador(a)</option>
         <option value="3">Infermeiro(a)</option>
         <option value="4">Médico(a)</option>
         <option value="5">Admin</option>
       </select>
-    </div>
+    </div> -->
 
-    <form id="resetForm">
+    <form id="loginForm">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -74,45 +71,78 @@
 
       </div>
 
-      <div class="div-button d-flex justify-content-center">
-        <button type="submit" class="btn btn-outline-primary">
-          Solicitar nova Senha</button>
-    </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Senha</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" />
+      </div>
 
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1">Verificar</label>
+      </div>
 
+      <div class="header-btn">
         <div class="div-button d-flex justify-content-center">
-          <a type="button" class="btn btn-outline-warning" href="/src/HTML/Logar.html">Voltar</a>
+          <button type="submit" class="btn btn-outline-primary">Logar</button>
         </div>
+        <div class="div-button d-flex justify-content-center">
+          <a type="submit" class="btn btn-outline-danger" href="/src/HTML/ResetSenha.html">Esqueci minha senha</a>
+        </div>
+        <div class="div-button d-flex justify-content-center">
+          <a type="button" class="btn btn-outline-warning" href="/src/Index.html">Voltar</a>
+        </div>
+      </div>
+      
   </main>
-
-  <footer></footer>
+  </form>
+  <footer class="footer"></footer>
 
 
   <script>
-    document.getElementById("resetForm").addEventListener("submit", function (e) {
-      e.preventDefault(); // Impede envio do formulário
+    // Mostrar ou ocultar a senha
+    document.getElementById('exampleCheck1').addEventListener('change', function () {
+      const senhaInput = document.getElementById('exampleInputPassword1');
+      senhaInput.type = this.checked ? 'text' : 'password';
+    });
 
-      const userTypeSelect = document.getElementById("userType");
-      const emailInput = document.getElementById("exampleInputEmail1");
+    // Validação do formulário de login
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
 
-      const userType = userTypeSelect.value;
-      const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
-      const email = emailInput.value.trim();
+      //const userTypeSelect = document.getElementById('userType');
+      //const userType = userTypeSelect.value;
+      //const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
+      const email = document.getElementById('exampleInputEmail1').value.trim();
+      const senha = document.getElementById('exampleInputPassword1').value.trim();
 
-      if (userType === "0" || userTypeSelect.selectedIndex === 0) {
-        alert("Por favor, selecione o tipo de usuário.");
-      } else if (email === "") {
-        alert("Por favor, digite seu e-mail.");
-      } else {
-        alert(`Uma nova senha será enviada para o e-mail: ${email} como ${userText}.`);
-        this.reset(); // Limpa os campos
+      // 1. Verifica se o tipo de usuário foi selecionado
+      //if (userType === "0") {
+       // alert("Por favor, selecione o tipo de usuário.");
+        //return;
+     // }
+
+      // 2. Verifica se o e-mail foi informado
+      if (email === "") {
+        alert("Por favor, informe seu e-mail.");
+        return;
       }
+
+      // 3. Verifica se a senha foi informada
+      if (senha === "") {
+        alert("Por favor, digite sua senha.");
+        return;
+      }
+
+      // Tudo certo
+      alert(`Login realizado com sucesso!\nE-mail: ${email}`);
+      //\nUsuário: ${userText} caso precise adicionar seleção de usuario
+      this.reset();
     });
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>
-
 </body>
 
 </html>

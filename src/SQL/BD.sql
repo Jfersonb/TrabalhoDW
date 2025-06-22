@@ -5,8 +5,8 @@ use vidaSerena;
 create table cadastroUsers(
     id int auto_increment primary key,
     nome varchar(250) not null,
-    cpf int not null unique,
-    telefone int not null unique,
+    cpf varchar(14) not null unique,
+    telefone varchar(15) not null unique,
     email varchar(250) not null unique,
     senha varchar(100) not null,
     arquivo longblob
@@ -42,19 +42,20 @@ create table cadastroMedico(
     foreign key (id_usuario) references cadastroUsers(id)
 );
 
-create table cadastroMIdoso(
+create table cadastroIdoso(
     id int auto_increment primary key,
     id_usuario int,
-    resposavel varchar(150) not null,
-    condicoesMedicas varchar(250) not null,
-    medicamentosUso varchar(250) not null,
-    resticoesAlimentar varchar(250) not null,
-    alergias varchar(250) not null,
+    responsavel varchar(150) not null,
+    condicoesMedicas text not null,
+    medicamentosUso text not null,
+    resticoesAlimentar text not null,
+    alergias text not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
 
 create table cadastroMedicamentos(
     id int auto_increment primary key,
+    nomeMedicamento varchar(150) not null,
     tipoMedicamento enum(
         'Sem tarja',
         'Tarja amarela',

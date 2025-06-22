@@ -79,7 +79,7 @@
   }
 
   .card {
-    flex: 1 1 100%;
+    flex: 1 1 40vh;
     max-width: 100%;
   }
 
