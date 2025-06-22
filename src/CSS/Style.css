@@ -71,7 +71,6 @@
   margin: 10px 30px;
 }
 
-/* ===== Responsividade ===== */
 
 /* Celulares */
 @media (max-width: 767px) {
@@ -109,7 +108,7 @@
   }
 }
 
-/* Laptops médios */
+/* Telas médias */
 @media (min-width: 1024px) and (max-width: 1200px) {
   .header-btn {
     flex-direction: row;
