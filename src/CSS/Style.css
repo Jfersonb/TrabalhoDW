@@ -71,7 +71,6 @@
   margin: 10px 30px;
 }
 
-
 /* Celulares */
 @media (max-width: 767px) {
   .header-btn {
@@ -111,7 +110,10 @@
 /* Telas médias */
 @media (min-width: 1024px) and (max-width: 1200px) {
   .header-btn {
+    display: flex;
     flex-direction: row;
+    gap: 20px;
+    margin: 0 1vh;
   }
 
   .card {
@@ -133,7 +135,10 @@
   }
 
   .header-btn {
-    gap: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 40vh;
   }
 
   .card {
