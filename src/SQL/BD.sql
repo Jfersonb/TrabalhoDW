@@ -1,4 +1,3 @@
-create database vidaSerena;
 
 use vidaSerena;
 

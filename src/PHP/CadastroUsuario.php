@@ -1,110 +1,129 @@
 <?php
-require_once '/src/PHP/ConexaoBD.php';
-$conn = conectarBanco();
+// Só processa o formulário se for uma requisição POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once 'ConexaoBD.php';
+    // Função para limpar máscara de CPF e telefone
+    function limparMascara($str)
+    {
+        return preg_replace('/\D/', '', $str ?? '');
+    }
 
-// Função para limpar máscara de CPF e telefone
-function limparMascara($str)
-{
-  return preg_replace('/\D/', '', $str);
+    // Dados comuns
+    $tipo_usuario = $_POST['userType'] ?? '';
+    $nome = $_POST['nomeCompleto'] ?? '';
+    $cpf = limparMascara($_POST['cpf'] ?? '');
+    $telefone = limparMascara($_POST['telefone'] ?? '');
+    $email = $_POST['email'] ?? '';
+    $senha = password_hash($_POST['senha1'] ?? '', PASSWORD_DEFAULT);
+
+    // Verificação do upload
+    if (!isset($_FILES['arquivo']) || $_FILES['arquivo']['error'] !== UPLOAD_ERR_OK) {
+        die("Erro ao enviar o arquivo.");
+    }
+
+    // Verifica a extensão do arquivo
+    $extensao = pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
+    $permitidos = ['pdf', 'jpg', 'jpeg', 'png'];
+    if (!in_array(strtolower($extensao), $permitidos)) {
+        die("Tipo de arquivo não permitido. Envie apenas PDF, JPG, JPEG ou PNG.");
+    }
+
+    // Verifica o tamanho do arquivo (2MB = 2 * 1024 * 1024 bytes)
+    $tamanhoMaximo = 2 * 1024 * 1024;
+    if ($_FILES['arquivo']['size'] > $tamanhoMaximo) {
+        die("Arquivo muito grande. O tamanho máximo permitido é 2MB.");
+    }
+
+    // Carrega o conteúdo do arquivo (após validar)
+    $arquivo = file_get_contents($_FILES['arquivo']['tmp_name']);
+
+    try {
+        // 1. Inserção na tabela principal
+        $sqlUser = "INSERT INTO cadastroUsers (nome, cpf, telefone, email, senha, arquivo) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmtUser = $conn->prepare($sqlUser);
+        $stmtUser->bindParam(1, $nome, PDO::PARAM_STR);
+        $stmtUser->bindParam(2, $cpf, PDO::PARAM_STR);
+        $stmtUser->bindParam(3, $telefone, PDO::PARAM_STR);
+        $stmtUser->bindParam(4, $email, PDO::PARAM_STR);
+        $stmtUser->bindParam(5, $senha, PDO::PARAM_STR);
+        $stmtUser->bindParam(6, $arquivo, PDO::PARAM_LOB);
+
+        if (!$stmtUser->execute()) {
+            throw new Exception("Erro ao cadastrar usuário");
+        }
+
+        $id_usuario = $conn->lastInsertId(); // ID para usar nas tabelas específicas
+
+        // 2. Inserção conforme tipo de usuário
+        switch ($tipo_usuario) {
+            case "1": // Familiar
+                $parentesco = $_POST['tipoParentesco'] ?? '';
+                $endereco = $_POST['endereco'] ?? '';
+                $sql = "INSERT INTO cadastroFamilia (id_usuario, tipoParentesco, endereco) VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $id_usuario, PDO::PARAM_INT);
+                $stmt->bindParam(2, $parentesco, PDO::PARAM_STR);
+                $stmt->bindParam(3, $endereco, PDO::PARAM_STR);
+                break;
+
+            case "2": // Cuidador
+                $cursos = $_POST['cursos'] ?? '';
+                $sql = "INSERT INTO cadastroCuidador (id_usuario, cursos) VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $id_usuario, PDO::PARAM_INT);
+                $stmt->bindParam(2, $cursos, PDO::PARAM_STR);
+                break;
+
+            case "3": // Enfermeiro
+                $coren = $_POST['coren'] ?? '';
+                $cip = $_POST['cip'] ?? '';
+                $sql = "INSERT INTO cadastroEnfermeiro (id_usuario, coren, cip) VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $id_usuario, PDO::PARAM_INT);
+                $stmt->bindParam(2, $coren, PDO::PARAM_STR);
+                $stmt->bindParam(3, $cip, PDO::PARAM_STR);
+                break;
+
+            case "4": // Médico
+                $crm = $_POST['crm'] ?? '';
+                $sql = "INSERT INTO cadastroMedico (id_usuario, crm) VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $id_usuario, PDO::PARAM_INT);
+                $stmt->bindParam(2, $crm, PDO::PARAM_STR);
+                break;
+
+            case "5": // Idoso
+                $responsavel = $_POST['responsavelLegal'] ?? '';
+                $condicao = $_POST['condicaoMedicaImportante'] ?? '';
+                $medicamentos = $_POST['medicamentosUso'] ?? '';
+                $restricao = $_POST['resticaoAlimentar'] ?? '';
+                $alergias = $_POST['alergias'] ?? '';
+                $sql = "INSERT INTO cadastroIdoso (id_usuario, responsavel, condicoesMedicas, medicamentosUso, resticoesAlimentar, alergias) VALUES (?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $id_usuario, PDO::PARAM_INT);
+                $stmt->bindParam(2, $responsavel, PDO::PARAM_STR);
+                $stmt->bindParam(3, $condicao, PDO::PARAM_STR);
+                $stmt->bindParam(4, $medicamentos, PDO::PARAM_STR);
+                $stmt->bindParam(5, $restricao, PDO::PARAM_STR);
+                $stmt->bindParam(6, $alergias, PDO::PARAM_STR);
+                break;
+
+            default:
+                throw new Exception("Tipo de usuário inválido.");
+        }
+
+        if ($stmt->execute()) {
+            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '/src/Index.html';</script>";
+        } else {
+            throw new Exception("Erro ao inserir dados específicos");
+        }
+
+    } catch (Exception $e) {
+        echo "Erro: " . $e->getMessage();
+    } finally {
+        $conn = null; // Fecha a conexão PDO
+    }
 }
-
-// Dados comuns
-$tipo_usuario = $_POST['userType'];
-$nome = $_POST['nomeCompleto'];
-$cpf = limparMascara($_POST['cpf']);
-$telefone = limparMascara($_POST['telefone']);
-$email = $_POST['email'];
-$senha = password_hash($_POST['senha1'], PASSWORD_DEFAULT);
-
-// Verificação do upload
-if (!isset($_FILES['arquivo']) || $_FILES['arquivo']['error'] !== UPLOAD_ERR_OK) {
-  die("Erro ao enviar o arquivo.");
-}
-
-// Verifica a extensão do arquivo
-$extensao = pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION);
-$permitidos = ['pdf', 'jpg', 'jpeg', 'png'];
-if (!in_array(strtolower($extensao), $permitidos)) {
-  die("Tipo de arquivo não permitido. Envie apenas PDF, JPG, JPEG ou PNG.");
-}
-
-// Verifica o tamanho do arquivo (2MB = 2 * 1024 * 1024 bytes)
-$tamanhoMaximo = 2 * 1024 * 1024;
-if ($_FILES['arquivo']['size'] > $tamanhoMaximo) {
-  die("Arquivo muito grande. O tamanho máximo permitido é 2MB.");
-}
-
-// Carrega o conteúdo do arquivo (após validar)
-$arquivo = file_get_contents($_FILES['arquivo']['tmp_name']);
-
-
-// 1. Inserção na tabela principal
-$sqlUser = "INSERT INTO cadastroUsers (nome, cpf, telefone, email, senha, arquivo) VALUES (?, ?, ?, ?, ?, ?)";
-$stmtUser = $conn->prepare($sqlUser);
-$stmtUser->bind_param("siisss", $nome, $cpf, $telefone, $email, $senha, $arquivo);
-
-if (!$stmtUser->execute()) {
-  die("Erro ao cadastrar usuário: " . $stmtUser->error);
-}
-
-$id_usuario = $conn->insert_id; // ID para usar nas tabelas específicas
-
-// 2. Inserção conforme tipo de usuário
-switch ($tipo_usuario) {
-  case "1": // Familiar
-    $parentesco = $_POST['tipoParentesco'];
-    $endereco = $_POST['endereco'];
-    $sql = "INSERT INTO cadastroFamilia (id_usuario, tipoParentesco, endereco) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $id_usuario, $parentesco, $endereco);
-    break;
-
-  case "2": // Cuidador
-    $cursos = $_POST['cursos'];
-    $sql = "INSERT INTO cadastroCuidador (id_usuario, cursos) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $id_usuario, $cursos);
-    break;
-
-  case "3": // Enfermeiro
-    $coren = $_POST['coren'];
-    $cip = $_POST['cip'];
-    $sql = "INSERT INTO cadastroEnfermeiro (id_usuario, coren, cip) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $id_usuario, $coren, $cip);
-    break;
-
-  case "4": // Médico
-    $crm = $_POST['crm'];
-    $sql = "INSERT INTO cadastroMedico (id_usuario, crm) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $id_usuario, $crm);
-    break;
-
-  case "5": // Idoso
-    $responsavel = $_POST['responsavelLegal'];
-    $condicao = $_POST['condicaoMedicaImportante'];
-    $medicamentos = $_POST['medicamentosUso'];
-    $restricao = $_POST['resticaoAlimentar'];
-    $alergias = $_POST['alergias'];
-    $sql = "INSERT INTO cadastroMIdoso (id_usuario, resposavel, condicoesMedicas, medicamentosUso, resticoesAlimentar, alergias) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssss", $id_usuario, $responsavel, $condicao, $medicamentos, $restricao, $alergias);
-    break;
-
-  default:
-    die("Tipo de usuário inválido.");
-}
-
-if ($stmt->execute()) {
-  echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '/src/Index.html';</script>";
-} else {
-  echo "Erro ao inserir dados específicos: " . $stmt->error;
-}
-
-$stmtUser->close();
-$stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +136,6 @@ $conn->close();
   <link rel="stylesheet" href="/src/CSS/Cadastro.css" />
   <title>Cadastro Usuário</title>
 </head>
-
 
 <body>
   <header>
@@ -141,19 +159,10 @@ $conn->close();
                 aria-expanded="false">Cadastros</a>
               <ul class="dropdown-menu text-center">
                 <li>
-                  <a class="dropdown-item" href="/src/PHP/CadastroMedicamentos">Cadastro Medicamentos</a>
+                  <a class="dropdown-item" href="/src/PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a>
                 </li>
-                <!-- <li>
-                  <hr class="dropdown-divider" />
-                </li> -->
-                <!-- <li>
-                  <a class="dropdown-item" href="#">Sem atribuição</a>
-                </li> -->
               </ul>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="/src/HTML/Informacao.html">Sobre o sistema</a>
             </li>
@@ -166,7 +175,7 @@ $conn->close();
   <main class="container mt-4">
     <form id="loginForm" action="CadastroUsuario.php" method="POST" enctype="multipart/form-data">
       <div class="div-form-selet mb-3">
-        <select class="form-select" id="userType" required>
+        <select class="form-select" id="userType" name="userType" required>
           <option value="0" selected>Selecione seu tipo de usuário</option>
           <option value="1">Familiar</option>
           <option value="2">Cuidador(a)</option>
@@ -291,7 +300,7 @@ $conn->close();
       <div class="input mb-3">
         <input type="file" class="form-control" id="arquivo" name="arquivo" accept=".pdf,.jpg,.jpeg,.png" required />
       </div>
-      <p>Selecione um arquivo para conprovação</p>
+      <p>Selecione um arquivo para comprovação</p>
 
       <div class="header-btn">
         <button type="submit" class="btn btn-outline-primary">
@@ -334,25 +343,23 @@ $conn->close();
       const type = parseInt(this.value);
 
       switch (type) {
-        //Enfermeiro
-
         case 1:
           //Exibo o bloco de dados do familiar
           document.getElementById("dadosFamiliar").classList.remove("d-none");
           break;
 
         case 2:
-          //Exibo o bloco de dados do enfermeiro
+          //Exibo o bloco de dados do cuidador
           document.getElementById("dadosCuidador").classList.remove("d-none");
           break;
         case 3:
-          //Exibo o bloco de dados do cuidador
+          //Exibo o bloco de dados do enfermeiro
           document
             .getElementById("dadosEnfermeiro")
             .classList.remove("d-none");
           break;
         case 4:
-          //Exibo o bloco de dados do enfermeiro
+          //Exibo o bloco de dados do médico
           document.getElementById("dadosMedico").classList.remove("d-none");
           break;
         case 5:
@@ -418,10 +425,50 @@ $conn->close();
         return;
       }
 
-      // Tudo certo
-      // alert("Solicitação realizada com sucesso!");
-      // this.reset();
-      if (valido) {
+      // Validar campos específicos baseado no tipo de usuário
+      const type = parseInt(userType);
+      let camposEspecificos = true;
+      
+      switch (type) {
+        case 1: // Familiar
+          if (!document.getElementById("tipoParentesco").value.trim() || 
+              !document.getElementById("endereco").value.trim()) {
+            alert("Por favor, preencha todos os campos obrigatórios do Familiar.");
+            camposEspecificos = false;
+          }
+          break;
+        case 2: // Cuidador
+          if (!document.getElementById("cursos").value.trim()) {
+            alert("Por favor, preencha o campo de cursos do Cuidador.");
+            camposEspecificos = false;
+          }
+          break;
+        case 3: // Enfermeiro
+          if (!document.getElementById("coren").value.trim() || 
+              !document.getElementById("cip").value.trim()) {
+            alert("Por favor, preencha todos os campos obrigatórios do Enfermeiro.");
+            camposEspecificos = false;
+          }
+          break;
+        case 4: // Médico
+          if (!document.getElementById("crm").value.trim()) {
+            alert("Por favor, preencha o campo CRM do Médico.");
+            camposEspecificos = false;
+          }
+          break;
+        case 5: // Idoso
+          if (!document.getElementById("responsavelLegal").value.trim() || 
+              !document.getElementById("condicaoMedicaImportante").value.trim() ||
+              !document.getElementById("medicamentosUso").value.trim() ||
+              !document.getElementById("resticaoAlimentar").value.trim() ||
+              !document.getElementById("alergias").value.trim()) {
+            alert("Por favor, preencha todos os campos obrigatórios do Idoso.");
+            camposEspecificos = false;
+          }
+          break;
+      }
+
+      if (camposEspecificos) {
         this.submit();
       }
     };
