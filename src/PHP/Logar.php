@@ -1,3 +1,32 @@
+<?php
+require_once "ConexaoBD.php";
+session_start();
+if(isset($_POST["email"])){
+  $sql=$conn->prepare("SELECT * FROM cadastroUsers WHERE email=:email");
+  $sql->bindValue(":email", $_POST["email"]);
+  $sql->execute();
+  $User=$sql->fetch();
+  if($User){
+    $Senha=$_POST["password"];
+    if(password_verify($Senha,$User["senha"])){
+      $_SESSION["logado"]=true;
+      $_SESSION["id"]=$User["id"];
+      $_SESSION["perfil"] = $User["perfil"];
+      header("location:/");
+
+
+    }else{
+    die("User ou senha inválidos");
+    }
+  }else{
+    die("User ou senha inválidos");
+  }
+
+}
+
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -7,50 +36,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
-  <link rel="stylesheet" href="CSS/Logar.css" />
+  <link rel="stylesheet" href="/CSS/Logar.css" />
   <title>Logar</title>
 </head>
 
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg-1 text-center bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="Index.html">Vida Serena</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="Index.html">Página principal</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Cadastros</a>
-              <ul class="dropdown-menu text-center">
-                <li><a class="dropdown-item" href="PHP/CadastroUsuario.php">Novo Usuário</a></li>
-                <li><a class="dropdown-item" href="PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a></li>
-                <!-- <li>
-                  <hr class="dropdown-divider" />
-                </li> -->
-                <!-- <li>
-                  <a class="dropdown-item" href="#">Sem atribuição</a>
-                </li> -->
-              </ul>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="HTML/Informacao.html">Sobre o sistema</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
+  <?php
+require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+?>
   <main class="container mt-4">
     <!-- <div class="div-form-selet">
       <select class="form-select" id="userType" aria-label="Default select example">
@@ -63,17 +56,17 @@
       </select>
     </div> -->
 
-    <form id="loginForm">
+    <form id="loginForm" method="post" action="/Logar.php">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        <input type="email" class="form-control" id="exampleInputEmail1" required name="email" aria-describedby="emailHelp"
           placeholder="Informe seu e-mail cadastrado" />
 
       </div>
 
       <div class="form-group">
         <label for="exampleInputPassword1">Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha" />
+        <input type="password" class="form-control" id="exampleInputPassword1" required name="password" placeholder="Senha" />
       </div>
 
       <div class="form-check">
@@ -86,10 +79,10 @@
           <button type="submit" class="btn btn-outline-primary">Logar</button>
         </div>
         <div class="div-button d-flex justify-content-center">
-          <a type="submit" class="btn btn-outline-danger" href="HTML/ResetSenha.html">Esqueci minha senha</a>
+          <a type="submit" class="btn btn-outline-danger" href="/PHP/ResetSenha.php">Esqueci minha senha</a>
         </div>
         <div class="div-button d-flex justify-content-center">
-          <a type="button" class="btn btn-outline-warning" href="Index.html">Voltar</a>
+          <a type="button" class="btn btn-outline-warning" href="/Index.php">Voltar</a>
         </div>
       </div>
       
@@ -103,40 +96,6 @@
     document.getElementById('exampleCheck1').addEventListener('change', function () {
       const senhaInput = document.getElementById('exampleInputPassword1');
       senhaInput.type = this.checked ? 'text' : 'password';
-    });
-
-    // Validação do formulário de login
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      //const userTypeSelect = document.getElementById('userType');
-      //const userType = userTypeSelect.value;
-      //const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
-      const email = document.getElementById('exampleInputEmail1').value.trim();
-      const senha = document.getElementById('exampleInputPassword1').value.trim();
-
-      // 1. Verifica se o tipo de usuário foi selecionado
-      //if (userType === "0") {
-       // alert("Por favor, selecione o tipo de usuário.");
-        //return;
-     // }
-
-      // 2. Verifica se o e-mail foi informado
-      if (email === "") {
-        alert("Por favor, informe seu e-mail.");
-        return;
-      }
-
-      // 3. Verifica se a senha foi informada
-      if (senha === "") {
-        alert("Por favor, digite sua senha.");
-        return;
-      }
-
-      // Tudo certo
-      alert(`Login realizado com sucesso!\nE-mail: ${email}`);
-      //\nUsuário: ${userText} caso precise adicionar seleção de usuario
-      this.reset();
     });
   </script>
 

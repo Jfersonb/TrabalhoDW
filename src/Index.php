@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,52 +10,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
-  <link rel="stylesheet" href="CSS/Style.css" />
+  <link rel="stylesheet" href="/CSS/Style.css" />
   <title>Vida Serena</title>
 </head>
 
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg-2 text-center bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="Index.html">Vida Serena</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="Index.html">Página principal</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="PHP/Logar.php">Logar</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Cadastros</a>
-              <ul class="dropdown-menu text-center">
-                <li><a class="dropdown-item" href="PHP/CadastroUsuario.php">Novo Usuário</a></li>
-                <li><a class="dropdown-item" href="PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a></li>
-                <!-- <li>
-                  <hr class="dropdown-divider" />
-                </li> -->
-                <!-- <li>
-                  <a class="dropdown-item" href="#">Sem atribuição</a>
-                </li> -->
-              </ul>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="HTML/Informacao.html">Sobre o sistema</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+  
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+?>
 
   <main class="container text-center mt-4">
     <h2 class="fw-bold text-dark">
@@ -114,14 +81,14 @@
 
     <div class="header-btn">
       <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="PHP/Logar.php">Logar</a>
-      <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
-        href="PHP/CadastroUsuario.php">Novo Usuário</a>
+      <!-- <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
+        href="/PHP/CadastroUsuario.php">Novo Usuário</a> -->
     </div>
   </main>
 
   <footer class="footer">
     <a type="button" class="footer-btn btn btn-outline-secondary d-flex justify-content-center"
-      href="HTML/Informacao.html">Sobre</a>
+      href="/HTML/Informacao.html">Sobre</a>
       <!-- <p class="mb d-flex justify-content-cente">© 2025 Vida Serena. Todos os direitos reservados.</p> -->
   </footer>
 

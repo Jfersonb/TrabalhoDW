@@ -1,4 +1,7 @@
 <?php
+//Validar se logado
+require_once 'Logado.php';
+
 // Só processa o formulário se for uma requisição POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'ConexaoBD.php';
@@ -113,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($stmt->execute()) {
-            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = 'Index.html';</script>";
+            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '/Index.html';</script>";
         } else {
             throw new Exception("Erro ao inserir dados específicos");
         }
@@ -138,39 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg-1 text-center bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="Index.html">Vida Serena</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="Index.html">Página principal</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="PHP/Logar.php">Logar</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Cadastros</a>
-              <ul class="dropdown-menu text-center">
-                <li>
-                  <a class="dropdown-item" href="PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="HTML/Informacao.html">Sobre o sistema</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+?>
 
   <main class="container mt-4">
     <form id="loginForm" action="CadastroUsuario.php" method="POST" enctype="multipart/form-data">
@@ -306,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn btn-outline-primary">
           Solicitar
         </button>
-        <a class="btn btn-outline-warning" href="Index.html">Voltar</a>
+        <a class="btn btn-outline-warning" href="/Index.html">Voltar</a>
       </div>
     </form>
   </main>

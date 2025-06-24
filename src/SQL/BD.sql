@@ -9,6 +9,7 @@ create table cadastroUsers(
     email varchar(250) not null unique,
     senha varchar(100) not null,
     arquivo longblob
+    
 );
 
 create table cadastroFamilia(

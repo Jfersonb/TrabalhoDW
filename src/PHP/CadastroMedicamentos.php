@@ -5,54 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="CSS/CadastroMedicamentos.css" />
+  <link rel="stylesheet" href="/CSS/CadastroMedicamentos.css" />
   <title>Cadastro Medicamentos</title>
 </head>
 
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg-1 text-center bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="Index.html">Vida Serena</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="Index.html">Página principal</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="PHP/Logar.php">Logar</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Cadastros</a>
-              <ul class="dropdown-menu text-center">
-                <li>
-                  <a class="dropdown-item" href="PHP/CadastroUsuario.php">Novo Usuário</a>
-                </li>
-
-                <!-- <li>
-                  <hr class="dropdown-divider" />
-                </li> -->
-                <!-- <li>
-                  <a class="dropdown-item" href="#">Sem atribuição</a>
-                </li> -->
-              </ul>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="PHP/Informacao.php">Sobre o sistema</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+?>
 
   <main class="container mt-4">
     <h2>Cadastro de Medicamentos</h2>
@@ -104,7 +64,7 @@
         <button type="submit" class="btn btn-outline-primary">
           Solicitar cadastramento
         </button>
-        <a class="btn btn-outline-warning" href="Index.html">Voltar</a>
+        <a class="btn btn-outline-warning" href="/Index.html">Voltar</a>
       </div>
     </form>
   </main>
