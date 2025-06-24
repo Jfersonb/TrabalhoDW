@@ -1,3 +1,5 @@
+create database vidaSerena;
+
 use vidaSerena;
 
 create table cadastroUsers(
@@ -12,10 +14,10 @@ create table cadastroUsers(
 );
 insert into cadastroUsers (nome, cpf, telefone, email, senha, perfil)
 values 
-('Ana Souza', '111.111.111-11', '(63) 90000-0001', 'ana@email.com', 'senha123', 'admin'),
-('Bruno Lima', '222.222.222-22', '(63) 90000-0002', 'bruno@email.com', 'senha123', 'admin'),
-('Carlos Silva', '333.333.333-33', '(63) 90000-0003', 'carlos@email.com', 'senha123', 'usuario'),
-('Daniela Ramos', '444.444.444-44', '(63) 90000-0004', 'daniela@email.com', 'senha123', 'usuario');
+('Ana Souza', '11111111111', '63 90000-0001', 'ana@email.com', 'senha123', 'admin'),
+('Bruno Lima', '22222222222', '63 90000-0002', 'bruno@email.com', 'senha123', 'admin'),
+('Carlos Silva', '33333333333', '63 90000-0003', 'carlos@email.com', 'senha123', 'usuario'),
+('Daniela Ramos', '44444444444', '63 90000-0004', 'daniela@email.com', 'senha123', 'usuario');
 
 create table cadastroFamilia(
     id int auto_increment primary key,
@@ -24,9 +26,7 @@ create table cadastroFamilia(
     endereco varchar(150) not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
-
-insert into
-    cadastroFamilia (id_usuario, tipoParentesco, endereco)
+insert into cadastroFamilia (id_usuario, tipoParentesco, endereco)
 values
     (3, 'Pai', 'Rua A, 123'),
     (4, 'Mãe', 'Rua B, 456'),
@@ -39,11 +39,9 @@ create table cadastroCuidador(
     cursos varchar(250) not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
-
-insert into
-    cadastroCuidador (id_usuario, cursos)
+insert into cadastroCuidador (id_usuario, cursos)
 values
-    (3, 'Cuidador de Idosos - 160h'),
+    (3, 'Cuidador de Idosos'),
     (4, 'Primeiros Socorros'),
     (3, 'Técnicas de Mobilização'),
     (4, 'Cuidados com Alzheimer');
@@ -55,9 +53,7 @@ create table cadastroEnfermeiro(
     cip varchar(30) not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
-
-insert into
-    cadastroEnfermeiro (id_usuario, coren, cip)
+insert into cadastroEnfermeiro (id_usuario, coren, cip)
 values
     (3, 'COREN12345TO', 'CIP67890'),
     (4, 'COREN23456TO', 'CIP78901'),
@@ -70,9 +66,7 @@ create table cadastroMedico(
     crm varchar(30) not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
-
-insert into
-    cadastroMedico (id_usuario, crm)
+insert into cadastroMedico (id_usuario, crm)
 values
     (3, 'CRM1234TO'),
     (4, 'CRM2345TO'),
@@ -89,71 +83,22 @@ create table cadastroIdoso(
     alergias text not null,
     foreign key (id_usuario) references cadastroUsers(id)
 );
-
-insert into
-    cadastroIdoso (
-        id_usuario,
-        responsavel,
-        condicoesMedicas,
-        medicamentosUso,
-        resticoesAlimentar,
-        alergias
-    )
+insert into cadastroIdoso (id_usuario, responsavel, condicoesMedicas, medicamentosUso, resticoesAlimentar, alergias)
 values
-    (
-        3,
-        'Ana Souza',
-        'Hipertensão',
-        'Losartana',
-        'Sem sal',
-        'Nenhuma'
-    ),
-    (
-        4,
-        'Bruno Lima',
-        'Diabetes',
-        'Insulina',
-        'Sem açúcar',
-        'Lactose'
-    ),
-    (
-        3,
-        'Carlos Silva',
-        'Demência',
-        'Rivastigmina',
-        'Sem glúten',
-        'Amendoim'
-    ),
-    (
-        4,
-        'Daniela Ramos',
-        'Artrose',
-        'Paracetamol',
-        'Nenhuma',
-        'Nenhuma'
-    );
+    (3, 'Ana Souza', 'Hipertensão', 'Losartana', 'Sem sal', 'Nenhuma'),
+    (4, 'Bruno Lima', 'Diabetes', 'Insulina', 'Sem açúcar', 'Lactose'),
+    (3, 'Carlos Silva', 'Demência', 'Rivastigmina', 'Sem glúten', 'Amendoim'),
+    (4, 'Daniela Ramos', 'Artrose', 'Paracetamol', 'Nenhuma', 'Nenhuma');
 
 create table cadastroMedicamentos(
     id int auto_increment primary key,
     nomeMedicamento varchar(150) not null,
-    tipoMedicamento enum(
-        'Sem tarja',
-        'Tarja amarela',
-        'Tarja vermelha',
-        'Tarja preta'
-    ) not null,
+    tipoMedicamento enum('Sem tarja', 'Tarja amarela', 'Tarja vermelha', 'Tarja preta') not null,
     quantDeCaixa int not null,
     quantPorCaixa int not null,
     arquivo longblob
 );
-
-insert into
-    cadastroMedicamentos (
-        nomeMedicamento,
-        tipoMedicamento,
-        quantDeCaixa,
-        quantPorCaixa
-    )
+insert into cadastroMedicamentos(nomeMedicamento, tipoMedicamento, quantDeCaixa, quantPorCaixa)
 values
     ('Paracetamol', 'Sem tarja', 10, 20),
     ('Diazepam', 'Tarja preta', 5, 30),
