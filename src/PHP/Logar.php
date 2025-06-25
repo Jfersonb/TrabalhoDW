@@ -8,13 +8,12 @@ if(isset($_POST["email"])){
   $User=$sql->fetch();
   if($User){
     $Senha=$_POST["password"];
-    if(password_verify($Senha,$User["senha"])){
+    $hashSenha = hash("sha256", $Senha);
+    if($hashSenha ===$User["senha"]){
       $_SESSION["logado"]=true;
       $_SESSION["id"]=$User["id"];
       $_SESSION["perfil"] = $User["perfil"];
       header("location:/");
-
-
     }else{
     die("User ou senha inválidos");
     }
