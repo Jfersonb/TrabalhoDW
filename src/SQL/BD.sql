@@ -12,12 +12,13 @@ create table cadastroUsers(
     arquivo longblob,
     perfil varchar(10)
 );
-insert into cadastroUsers (nome, cpf, telefone, email, senha, perfil)
-values 
-('Ana Souza', '11111111111', '63 900000001', 'ana@email.com', 'senha123', 'admin'),
-('Bruno Lima', '22222222222', '63 900000002', 'bruno@email.com', 'senha123', 'admin'),
-('Carlos Silva', '33333333333', '63 900000003', 'carlos@email.com', 'senha123', 'usuario'),
-('Daniela Ramos', '44444444444', '63 900000004', 'daniela@email.com', 'senha123', 'usuario');
+INSERT INTO cadastroUsers (nome, cpf, telefone, email, senha, perfil)
+VALUES 
+('Jeferon Silva', '11111111111', '63 900000001', 'silva@email.com', SHA2('senha123', 256), 'admin'),
+('Bruno Lima', '22222222222', '63 900000002', 'bruno@email.com', SHA2('senha123', 256), 'admin'),
+('Carlos Silva', '33333333333', '63 900000003', 'carlos@email.com', SHA2('senha123', 256), 'usuario'),
+('Daniela Ramos', '44444444444', '63 900000004', 'daniela@email.com', SHA2('senha123', 256), 'usuario'),
+('Ana Souza', '55555555555', '63 900000005', 'ana@email.com', SHA2('senha123', 256), 'usuario');
 
 create table cadastroFamilia(
     id int auto_increment primary key,

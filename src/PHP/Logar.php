@@ -56,7 +56,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
       </select>
     </div> -->
 
-    <form id="loginForm" method="post" action="/Logar.php">
+    <form id="loginForm" method="post" action="/PHP/Logar.php">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
         <input type="email" class="form-control" id="exampleInputEmail1" required name="email" aria-describedby="emailHelp"
