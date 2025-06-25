@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($stmt->execute()) {
-            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '/Index.html';</script>";
+            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href = '/Index.php';</script>";
         } else {
             throw new Exception("Erro ao inserir dados específicos");
         }
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="CSS/Cadastro.css" />
+  <link rel="stylesheet" href="/CSS/Cadastro.css" />
   <title>Cadastro Usuário</title>
 </head>
 
@@ -279,7 +279,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
         <button type="submit" class="btn btn-outline-primary">
           Solicitar
         </button>
-        <a class="btn btn-outline-warning" href="/Index.html">Voltar</a>
+        <a class="btn btn-outline-warning" href="/Index.php">Voltar</a>
       </div>
     </form>
   </main>

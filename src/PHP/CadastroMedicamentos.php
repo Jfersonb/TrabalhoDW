@@ -64,7 +64,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
         <button type="submit" class="btn btn-outline-primary">
           Solicitar cadastramento
         </button>
-        <a class="btn btn-outline-warning" href="/Index.html">Voltar</a>
+        <a class="btn btn-outline-warning" href="/Index.php">Voltar</a>
       </div>
     </form>
   </main>

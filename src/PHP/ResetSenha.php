@@ -14,7 +14,7 @@
   <header>
     <nav class="navbar navbar-expand-lg-1 text-center bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/Index.html">Vida Serena</a>
+        <a class="navbar-brand" href="/Index.php">Vida Serena</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="/Index.html">Página principal</a>
+              <a class="nav-link" href="/Index.php">Página principal</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/PHP/Logar.php">Logar</a>
@@ -81,7 +81,7 @@
 
 
         <div class="div-button d-flex justify-content-center">
-          <a type="button" class="btn btn-outline-warning" href="/HTML/Logar.html">Voltar</a>
+          <a type="button" class="btn btn-outline-warning" href="/PHP/Logar.php">Voltar</a>
         </div>
   </main>
 

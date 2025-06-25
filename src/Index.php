@@ -80,7 +80,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
     </p>
 
     <div class="header-btn">
-      <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="PHP/Logar.php">Logar</a>
+      <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/Logar.php">Logar</a>
       <!-- <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
         href="/PHP/CadastroUsuario.php">Novo Usuário</a> -->
     </div>

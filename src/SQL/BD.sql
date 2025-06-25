@@ -1,4 +1,4 @@
-create database vidaSerena;
+
 
 use vidaSerena;
 
@@ -14,10 +14,10 @@ create table cadastroUsers(
 );
 insert into cadastroUsers (nome, cpf, telefone, email, senha, perfil)
 values 
-('Ana Souza', '11111111111', '63 90000-0001', 'ana@email.com', 'senha123', 'admin'),
-('Bruno Lima', '22222222222', '63 90000-0002', 'bruno@email.com', 'senha123', 'admin'),
-('Carlos Silva', '33333333333', '63 90000-0003', 'carlos@email.com', 'senha123', 'usuario'),
-('Daniela Ramos', '44444444444', '63 90000-0004', 'daniela@email.com', 'senha123', 'usuario');
+('Ana Souza', '11111111111', '63 900000001', 'ana@email.com', 'senha123', 'admin'),
+('Bruno Lima', '22222222222', '63 900000002', 'bruno@email.com', 'senha123', 'admin'),
+('Carlos Silva', '33333333333', '63 900000003', 'carlos@email.com', 'senha123', 'usuario'),
+('Daniela Ramos', '44444444444', '63 900000004', 'daniela@email.com', 'senha123', 'usuario');
 
 create table cadastroFamilia(
     id int auto_increment primary key,
