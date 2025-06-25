@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 $senha = 'senha123';
 $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
