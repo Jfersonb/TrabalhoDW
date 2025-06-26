@@ -1,10 +1,11 @@
 <?php
 // require_once "ConexaoBD.php";
+
 session_start();
 require_once 'Logado.php';
 
-//Validar se logado com admin
-if($_SESSION['perfil'] != "admin"){
+// Verifica se está logado como "usuario"
+if($_SESSION['perfil'] != "usuario"){
     header("Location:/");
 }
 ?>
