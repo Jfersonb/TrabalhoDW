@@ -1,24 +1,24 @@
 <?php
 require_once "ConexaoBD.php";
 session_start();
-if(isset($_POST["email"])){
-  $sql=$conn->prepare("SELECT * FROM cadastroUsers WHERE email=:email");
+if (isset($_POST["email"])) {
+  $sql = $conn->prepare("SELECT * FROM cadastroUsers WHERE email=:email");
   $sql->bindValue(":email", $_POST["email"]);
   $sql->execute();
-  $User=$sql->fetch();
-  if($User){
-    $Senha=$_POST["password"];
+  $User = $sql->fetch();
+  if ($User) {
+    $Senha = $_POST["password"];
     $hashSenha = hash("sha256", $Senha);
-    if($hashSenha ===$User["senha"]){
-      $_SESSION["logado"]=true;
-      $_SESSION["id"]=$User["id"];
+    if ($hashSenha === $User["senha"]) {
+      $_SESSION["logado"] = true;
+      $_SESSION["id"] = $User["id"];
       $_SESSION["perfil"] = $User["perfil"];
       header("location:/");
-    }else{
-    die("User ou senha inválidos");
+    } else {
+      header("Location: /PHP/Logar.php?msg=erro");
     }
-  }else{
-    die("User ou senha inválidos");
+  } else {
+    header("Location: /PHP/Logar.php?msg=erro");
   }
 
 }
@@ -41,8 +41,8 @@ if(isset($_POST["email"])){
 
 <body>
   <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
-?>
+  require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+  ?>
   <main class="container mt-4">
     <!-- <div class="div-form-selet">
       <select class="form-select" id="userType" aria-label="Default select example">
@@ -58,14 +58,15 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
     <form id="loginForm" method="post" action="/PHP/Logar.php">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" required name="email" aria-describedby="emailHelp"
-          placeholder="Informe seu e-mail cadastrado" />
+        <input type="email" class="form-control" id="exampleInputEmail1" required name="email"
+          aria-describedby="emailHelp" placeholder="Informe seu e-mail cadastrado" />
 
       </div>
 
       <div class="form-group">
         <label for="exampleInputPassword1">Senha</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" required name="password" placeholder="Senha" />
+        <input type="password" class="form-control" id="exampleInputPassword1" required name="password"
+          placeholder="Senha" />
       </div>
 
       <div class="form-check">
@@ -84,7 +85,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
           <a type="button" class="btn btn-outline-warning" href="/Index.php">Voltar</a>
         </div>
       </div>
-      
+
   </main>
   </form>
   <footer class="footer"></footer>

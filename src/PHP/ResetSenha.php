@@ -1,9 +1,11 @@
 <?php
 require_once "ConexaoBD.php";
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $novaSenhaPadrao = '123senha';
+    $hashSenha = password_hash($novaSenhaPadrao, PASSWORD_DEFAULT);
 
     // Verifica se o e-mail existe
     $sql = $conn->prepare("SELECT id FROM cadastroUsers WHERE email = :email");
@@ -11,18 +13,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql->execute();
     $usuario = $sql->fetch();
 
+
     if ($usuario) {
-        // Atualiza a senha fixa como SHA2
-        $update = $conn->prepare("UPDATE cadastroUsers SET senha = SHA2(:senha, 256) WHERE email = :email");
-        $update->bindValue(":senha", $novaSenhaPadrao);
+        // Atualiza a senha fixa como criptografia
+        $update = $conn->prepare("UPDATE cadastroUsers SET senha = :senha WHERE email = :email");
+        $update->bindValue(":senha", $hashSenha);
         $update->bindValue(":email", $email);
         if ($update->execute()) {
-            echo "Senha redefinida com sucesso para: 123senha";
+            header("Location: /PHP/Logar.php?msg=sucesso");
+            exit;
         } else {
-            echo "Erro ao redefinir a senha.";
+            header("Location: /PHP/Logar.php?msg=erro");
+            exit;
         }
     } else {
-        echo "E-mail não encontrado.";
+        header("Location: /PHP/Logar.php?msg=erro");
+        exit;
     }
 }
 ?>
@@ -45,22 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ?>
 
   <main class="container mt-4">
-    <div class="div-form-selet">
-      <select class="form-select" id="userType" aria-label="Default select example">
-
-        <option selected>Selecione seu tipo de usuário</option>
-        <option value="1">Familiar</option>
-        <option value="2">Cuidador(a)</option>
-        <option value="3">Infermeiro(a)</option>
-        <option value="4">Médico(a)</option>
-        <option value="5">Admin</option>
-      </select>
-    </div>
-
-    <form id="resetForm">
+    <form id="resetForm" method="post" action="">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
           placeholder="Informe seu e-mail cadastrado" />
 
       </div>
@@ -81,23 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <script>
     document.getElementById("resetForm").addEventListener("submit", function (e) {
-      e.preventDefault(); // Impede envio do formulário
 
-      const userTypeSelect = document.getElementById("userType");
       const emailInput = document.getElementById("exampleInputEmail1");
-
-      const userType = userTypeSelect.value;
-      const userText = userTypeSelect.options[userTypeSelect.selectedIndex].text;
       const email = emailInput.value.trim();
 
-      if (userType === "0" || userTypeSelect.selectedIndex === 0) {
-        alert("Por favor, selecione o tipo de usuário.");
-      } else if (email === "") {
+      if (email === "") {
+        e.preventDefault();
         alert("Por favor, digite seu e-mail.");
-      } else {
-        alert(`Uma nova senha será enviada para o e-mail: ${email} como ${userText}.`);
-        this.reset(); // Limpa os campos
-      }
+      } 
+      
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
