@@ -1,7 +1,6 @@
 <?php
 require_once "ConexaoBD.php";
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $novaSenhaPadrao = '123senha';

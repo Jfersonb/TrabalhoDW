@@ -34,7 +34,7 @@
                 aria-expanded="false">Cadastros</a>
               <ul class="dropdown-menu text-center">
                 <li><a class="dropdown-item" href="/PHP/CadastroUsuario.php">Novo Usuário</a></li>
-                <li><a class="dropdown-item" href="/PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a></li> -->
+                <li><a class="dropdown-item" href="/PHP/CadastroMedicamentos.php">Cadastro Medicamentos</a></li>
                 <li>
                   <hr class="dropdown-divider" />
                 </li> 

@@ -1,24 +1,28 @@
 <?php
 require_once "ConexaoBD.php";
 session_start();
-if (isset($_POST["email"])) {
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["password"])) {
   $sql = $conn->prepare("SELECT * FROM cadastroUsers WHERE email=:email");
   $sql->bindValue(":email", $_POST["email"]);
   $sql->execute();
   $User = $sql->fetch();
   if ($User) {
     $Senha = $_POST["password"];
-    $hashSenha = hash("sha256", $Senha);
-    if ($hashSenha === $User["senha"]) {
+
+    if (password_verify($Senha, $User["senha"])) {
       $_SESSION["logado"] = true;
       $_SESSION["id"] = $User["id"];
       $_SESSION["perfil"] = $User["perfil"];
       header("location:/");
+      exit;
     } else {
       header("Location: /PHP/Logar.php?msg=erro");
+      exit;
     }
   } else {
     header("Location: /PHP/Logar.php?msg=erro");
+    exit;
   }
 
 }
@@ -44,17 +48,6 @@ if (isset($_POST["email"])) {
   require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
   ?>
   <main class="container mt-4">
-    <!-- <div class="div-form-selet">
-      <select class="form-select" id="userType" aria-label="Default select example">
-        <option value="0" selected>Selecione seu tipo de usuário</option>
-        <option value="1">Familiar</option>
-        <option value="2">Cuidador(a)</option>
-        <option value="3">Infermeiro(a)</option>
-        <option value="4">Médico(a)</option>
-        <option value="5">Admin</option>
-      </select>
-    </div> -->
-
     <form id="loginForm" method="post" action="/PHP/Logar.php">
       <div class="form-group">
         <label for="exampleInputEmail1">E-mail</label>
