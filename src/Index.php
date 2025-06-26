@@ -84,6 +84,8 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
       <!-- <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
         href="/PHP/CadastroUsuario.php">Novo Usuário</a> -->
     </div>
+
+    
   </main>
 
   <footer class="footer">
