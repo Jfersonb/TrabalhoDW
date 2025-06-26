@@ -93,15 +93,17 @@ values
 
 create table cadastroMedicamentos(
     id int auto_increment primary key,
+    id_usuario int,
     nomeMedicamento varchar(150) not null,
     tipoMedicamento enum('Sem tarja', 'Tarja amarela', 'Tarja vermelha', 'Tarja preta') not null,
     quantDeCaixa int not null,
     quantPorCaixa int not null,
-    arquivo longblob
+    notaFiscal longblob,
+    foreign key(id_usuario) references cadastroUsers(id)
 );
-insert into cadastroMedicamentos(nomeMedicamento, tipoMedicamento, quantDeCaixa, quantPorCaixa)
+insert into cadastroMedicamentos(id_usuario ,nomeMedicamento, tipoMedicamento, quantDeCaixa, quantPorCaixa)
 values
-    ('Paracetamol', 'Sem tarja', 10, 20),
-    ('Diazepam', 'Tarja preta', 5, 30),
-    ('Losartana', 'Tarja vermelha', 8, 15),
-    ('Insulina', 'Tarja amarela', 6, 10);
+    (3,'Paracetamol', 'Sem tarja', 10, 20),
+    (4,'Diazepam', 'Tarja preta', 5, 30),
+    (3,'Losartana', 'Tarja vermelha', 8, 15),
+    (4,'Insulina', 'Tarja amarela', 6, 10);

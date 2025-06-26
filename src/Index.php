@@ -88,7 +88,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
 
   <footer class="footer">
     <a type="button" class="footer-btn btn btn-outline-secondary d-flex justify-content-center"
-      href="/HTML/Informacao.html">Sobre</a>
+      href="/PHP/Informacao.php">Sobre</a>
       <!-- <p class="mb d-flex justify-content-cente">© 2025 Vida Serena. Todos os direitos reservados.</p> -->
   </footer>
 

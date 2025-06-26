@@ -1,3 +1,65 @@
+<?php
+session_start();
+require_once "ConexaoBD.php";
+
+// Validação do método
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Verifica se usuário está logado
+  if (!isset($_SESSION['id'])) {
+    die("Usuário não autenticado.");
+  }
+
+  $idUsuario = $_SESSION['id'];
+
+  // Coleta os dados do formulário
+  $nome = $_POST['nomeMedicamento'] ?? '';
+  $tipo = $_POST['tipoMedicamento'] ?? '';
+  $quantidadeCaixas = (int) ($_POST['quantidadeCaixas'] ?? 0);
+  $quantidadePorCaixa = (int) ($_POST['quantidadePorCaixa'] ?? 0);
+
+  // Verifica se o arquivo foi enviado
+  if (!isset($_FILES['notaFiscal']) || $_FILES['notaFiscal']['error'] !== UPLOAD_ERR_OK) {
+    die("Erro ao enviar a nota fiscal.");
+  }
+
+  // Validação do tipo de arquivo
+  $permitidos = ['application/pdf', 'image/jpeg', 'image/png'];
+  $tipoArquivo = mime_content_type($_FILES['notaFiscal']['tmp_name']);
+  if (!in_array($tipoArquivo, $permitidos)) {
+    die("Tipo de arquivo não permitido. Apenas PDF, JPG e PNG são aceitos.");
+  }
+
+  // Processa o arquivo
+  $notaFiscal = file_get_contents($_FILES['notaFiscal']['tmp_name']);
+
+  // Insere no banco de dados
+  try {
+    $sql = $conn->prepare("INSERT INTO cadastroMedicamentos 
+        (id_usuario, nomeMedicamento, tipoMedicamento, quantDeCaixa, quantPorCaixa, notaFiscal) 
+        VALUES (:idUsuario, :nome, :tipo, :qtdCaixas, :qtdPorCaixa, :nota)");
+
+    $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $sql->bindValue(":nome", $nome);
+    $sql->bindValue(":tipo", $tipo);
+    $sql->bindValue(":qtdCaixas", $quantidadeCaixas, PDO::PARAM_INT);
+    $sql->bindValue(":qtdPorCaixa", $quantidadePorCaixa, PDO::PARAM_INT);
+    $sql->bindValue(":nota", $notaFiscal, PDO::PARAM_LOB);
+
+    $sql->execute();
+
+    header("Location: /PHP/CadastroMedicamentos.php?msg=sucesso");
+    exit;
+
+  } catch (PDOException $e) {
+    error_log("Erro ao cadastrar medicamento: " . $e->getMessage());
+    header("Location: /PHP/CadastroMedicamentos.php?msg=erro");
+    exit;
+  }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -10,16 +72,24 @@
 </head>
 
 <body>
-<?php
-require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
-?>
+  <?php
+  require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+
+  if (isset($_GET['msg'])) {
+    if ($_GET['msg'] === 'sucesso') {
+      echo "<script>alert('Medicamento cadastrado com sucesso!');</script>";
+    } elseif ($_GET['msg'] === 'erro') {
+      echo "<script>alert('Erro ao cadastrar medicamento.');</script>";
+    }
+  }
+  ?>
 
   <main class="container mt-4">
     <h2>Cadastro de Medicamentos</h2>
-    <form id="formMedicamento">
+    <form id="formMedicamento" method="POST" action="" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="nomeMedicamento" class="form-label">Nome do Medicamento</label>
-        <input type="text" class="form-control" id="nomeMedicamento" required />
+        <input type="text" name="nomeMedicamento" class="form-control" id="nomeMedicamento" required />
       </div>
 
       <div class="mb-3">
@@ -48,16 +118,17 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
 
       <div class="mb-3">
         <label for="quantidadeCaixas" class="form-label">Quantidade de caixas</label>
-        <input type="number" class="form-control" id="quantidadeCaixas" min="1" required />
+        <input type="number" name="quantidadeCaixas" class="form-control" id="quantidadeCaixas" min="1" required />
       </div>
 
       <div class="mb-3">
         <label for="quantidadePorCaixa" class="form-label">Quantidade por caixa</label>
-        <input type="number" class="form-control" id="quantidadePorCaixa" min="1" required />
+        <input type="number" name="quantidadePorCaixa" class="form-control" id="quantidadePorCaixa" min="1" required />
       </div>
 
       <div class="input mb-3">
-        <input type="file" class="form-control" id="inputGroupFile02" accept=".pdf,.jpg,.jpeg,.png" required />
+        <input type="file" name="notaFiscal" class="form-control" id="inputGroupFile02" accept=".pdf,.jpg,.jpeg,.png"
+          required />
       </div>
       <p>Selecione a nota fiscal de compra</p>
       <div class="header-btn">
@@ -85,35 +156,16 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
 
     // Envio do formulário
     document.getElementById("formMedicamento").onsubmit = function (e) {
-      e.preventDefault();
-
       const nome = document.getElementById("nomeMedicamento").value.trim();
       const tipoSelecionado = Array.from(checkboxes).find((cb) => cb.checked);
-      const qtdCaixas = document
-        .getElementById("quantidadeCaixas")
-        .value.trim();
-      const qtdPorCaixa = document
-        .getElementById("quantidadePorCaixa")
-        .value.trim();
+      const qtdCaixas = document.getElementById("quantidadeCaixas").value.trim();
+      const qtdPorCaixa = document.getElementById("quantidadePorCaixa").value.trim();
       const notaFiscal = document.getElementById("inputGroupFile02").files[0];
 
-      if (
-        !nome ||
-        !tipoSelecionado ||
-        !qtdCaixas ||
-        !qtdPorCaixa ||
-        !notaFiscal
-      ) {
-        alert(
-          "Por favor, preencha todos os campos e selecione o tipo de medicamento."
-        );
-        return;
+      if (!nome || !tipoSelecionado || !qtdCaixas || !qtdPorCaixa || !notaFiscal) {
+        e.preventDefault(); // impede envio só se estiver incompleto
+        alert("Por favor, preencha todos os campos e selecione o tipo de medicamento.");
       }
-
-      alert("Solicitação realizada com sucesso!");
-
-      // Limpa os campos do formulário
-      this.reset();
     };
   </script>
 

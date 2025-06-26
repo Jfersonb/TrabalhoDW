@@ -44,7 +44,7 @@
             }
             ?>
             <li class="nav-item">
-              <a class="nav-link" href="/HTML/Informacao.html">Sobre o sistema</a>
+              <a class="nav-link" href="/PHP/Informacao.php">Sobre o sistema</a>
             </li>
           </ul>
         </div>
