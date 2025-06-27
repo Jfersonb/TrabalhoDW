@@ -16,18 +16,11 @@ $busca = $_GET['busca'] ?? '';
 // Consulta pacientes apenas do usuário logado
 try {
     if (!empty($busca)) {
-        $sql = $conn->prepare("
-            SELECT * FROM cadastroIdoso 
-            WHERE id_usuario = :idUsuario 
-              AND responsavel LIKE :busca
-        ");
+        $sql = $conn->prepare("SELECT * FROM cadastroIdoso WHERE id_usuario = :idUsuario AND responsavel LIKE :busca");
         $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
         $sql->bindValue(":busca", "%" . $busca . "%", PDO::PARAM_STR);
     } else {
-        $sql = $conn->prepare("
-            SELECT * FROM cadastroIdoso 
-            WHERE id_usuario = :idUsuario
-        ");
+        $sql = $conn->prepare("SELECT * FROM cadastroIdoso WHERE id_usuario = :idUsuario");
         $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
     }
 
@@ -40,9 +33,9 @@ try {
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,6 +46,7 @@ try {
     <link rel="stylesheet" href="/CSS/ListaPacientes.css" />
     <link rel="stylesheet" href="/CSS/Style.css" />
 </head>
+
 <body>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php"; ?>
@@ -105,4 +99,5 @@ try {
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

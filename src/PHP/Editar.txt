@@ -1,0 +1,238 @@
+<?php
+require_once 'Logado.php';
+require_once 'ConexaoBD.php';
+
+// Verificação de permissão: só pode editar seu próprio perfil
+if (!isset($_SESSION['id']) || !isset($_GET['id']) || $_SESSION['id'] != intval($_GET['id'])) {
+    die("Acesso negado.");
+}
+
+// Função para limpar máscaras
+function limparMascara($str) {
+    return preg_replace('/\D/', '', $str ?? '');
+}
+
+// Obter ID do usuário
+$id = intval($_GET['id']);
+
+// Buscar dados do usuário
+$sqlUser = "SELECT * FROM cadastroUsers WHERE id = ?";
+$stmt = $conn->prepare($sqlUser);
+$stmt->execute([$id]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("Usuário não encontrado.");
+}
+
+// PERFIL do usuário logado (não pega do formulário), convertido para inteiro
+$perfil = isset($_SESSION['perfil']) ? (int) $_SESSION['perfil'] : 0;
+
+// Atualizar se formulário for enviado
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    try {
+        $conn->beginTransaction();
+
+        // Dados comuns
+        $nome = $_POST['nomeCompleto'] ?? '';
+        $cpf = limparMascara($_POST['cpf'] ?? '');
+        $telefone = limparMascara($_POST['telefone'] ?? '');
+        $email = $_POST['email'] ?? '';
+        $senha = !empty($_POST['senha1']) ? password_hash($_POST['senha1'], PASSWORD_DEFAULT) : null;
+
+        // Arquivo opcional
+        $arquivo = null;
+        if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] === UPLOAD_ERR_OK) {
+            $extensao = strtolower(pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION));
+            $permitidos = ['pdf', 'jpg', 'jpeg', 'png'];
+            if (in_array($extensao, $permitidos)) {
+                if ($_FILES['arquivo']['size'] <= 2 * 1024 * 1024) {
+                    $arquivo = file_get_contents($_FILES['arquivo']['tmp_name']);
+                } else {
+                    throw new Exception("Arquivo muito grande. Max: 2MB.");
+                }
+            } else {
+                throw new Exception("Tipo de arquivo inválido.");
+            }
+        }
+
+        // Atualiza cadastroUsers
+        $sqlUpdate = "UPDATE cadastroUsers SET nome = ?, cpf = ?, telefone = ?, email = ?"
+                   . ($senha ? ", senha = ?" : "")
+                   . ($arquivo ? ", arquivo = ?" : "")
+                   . " WHERE id = ?";
+        $params = [$nome, $cpf, $telefone, $email];
+        if ($senha) $params[] = $senha;
+        if ($arquivo) $params[] = $arquivo;
+        $params[] = $id;
+
+        $stmt = $conn->prepare($sqlUpdate);
+        $stmt->execute($params);
+
+        // Atualiza dados específicos por perfil (cases numéricos)
+        switch ($perfil) {
+            case 1: // Familiar
+                $sql = "UPDATE cadastroFamilia SET tipoParentesco = ?, endereco = ? WHERE id_usuario = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$_POST['tipoParentesco'], $_POST['endereco'], $id]);
+                break;
+
+            case 2: // Cuidador
+                $sql = "UPDATE cadastroCuidador SET cursos = ? WHERE id_usuario = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$_POST['cursos'], $id]);
+                break;
+
+            case 3: // Enfermeiro
+                $sql = "UPDATE cadastroEnfermeiro SET coren = ?, cip = ? WHERE id_usuario = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$_POST['coren'], $_POST['cip'], $id]);
+                break;
+
+            case 4: // Médico
+                $sql = "UPDATE cadastroMedico SET crm = ? WHERE id_usuario = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$_POST['crm'], $id]);
+                break;
+
+            case 5: // Idoso
+                $sql = "UPDATE cadastroIdoso SET responsavel = ?, condicoesMedicas = ?, medicamentosUso = ?, resticoesAlimentar = ?, alergias = ? WHERE id_usuario = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    $_POST['responsavelLegal'], $_POST['condicaoMedicaImportante'],
+                    $_POST['medicamentosUso'], $_POST['resticaoAlimentar'],
+                    $_POST['alergias'], $id
+                ]);
+                break;
+
+            default:
+                throw new Exception("Perfil inválido para edição.");
+        }
+
+        $conn->commit();
+        echo "<script>alert('Dados atualizados com sucesso!'); window.location.href = '/Index.php';</script>";
+    } catch (Exception $e) {
+        $conn->rollBack();
+        echo "<p style='color:red'>Erro: " . $e->getMessage() . "</p>";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/CSS/Editar.css" /> -->
+    <title>Editar Perfil</title>
+</head>
+<body>
+
+<?php require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php"; ?>
+
+<h1>Editar Perfil</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <label for="nomeCompleto">Nome Completo:</label>
+    <input type="text" name="nomeCompleto" value="<?= htmlspecialchars($user['nome']) ?>" required><br>
+
+    <label for="cpf">CPF:</label>
+    <input type="text" name="cpf" value="<?= htmlspecialchars($user['cpf']) ?>" required><br>
+
+    <label for="telefone">Telefone:</label>
+    <input type="text" name="telefone" value="<?= htmlspecialchars($user['telefone']) ?>" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required><br>
+
+    <label for="senha1">Nova Senha (opcional):</label>
+    <input type="password" name="senha1"><br>
+
+    <label for="arquivo">Anexar Documento (PDF, JPG, PNG – até 2MB):</label>
+    <input type="file" name="arquivo"><br><br>
+
+    <?php
+    // Carregar campos adicionais conforme perfil da sessão
+    switch ($perfil) {
+        case 1: // Familiar
+            $sql = "SELECT * FROM cadastroFamilia WHERE id_usuario = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <label for="tipoParentesco">Tipo de Parentesco:</label>
+            <input type="text" name="tipoParentesco" value="<?= htmlspecialchars($dados['tipoParentesco'] ?? '') ?>"><br>
+
+            <label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" value="<?= htmlspecialchars($dados['endereco'] ?? '') ?>"><br>
+            <?php
+            break;
+
+        case 2: // Cuidador
+            $sql = "SELECT * FROM cadastroCuidador WHERE id_usuario = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <label for="cursos">Cursos:</label>
+            <input type="text" name="cursos" value="<?= htmlspecialchars($dados['cursos'] ?? '') ?>"><br>
+            <?php
+            break;
+
+        case 3: // Enfermeiro
+            $sql = "SELECT * FROM cadastroEnfermeiro WHERE id_usuario = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <label for="coren">COREN:</label>
+            <input type="text" name="coren" value="<?= htmlspecialchars($dados['coren'] ?? '') ?>"><br>
+
+            <label for="cip">CIP:</label>
+            <input type="text" name="cip" value="<?= htmlspecialchars($dados['cip'] ?? '') ?>"><br>
+            <?php
+            break;
+
+        case 4: // Médico
+            $sql = "SELECT * FROM cadastroMedico WHERE id_usuario = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <label for="crm">CRM:</label>
+            <input type="text" name="crm" value="<?= htmlspecialchars($dados['crm'] ?? '') ?>"><br>
+            <?php
+            break;
+
+        case 5: // Idoso
+            $sql = "SELECT * FROM cadastroIdoso WHERE id_usuario = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$id]);
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <label for="responsavelLegal">Responsável Legal:</label>
+            <input type="text" name="responsavelLegal" value="<?= htmlspecialchars($dados['responsavel'] ?? '') ?>"><br>
+
+            <label for="condicaoMedicaImportante">Condições Médicas:</label>
+            <input type="text" name="condicaoMedicaImportante" value="<?= htmlspecialchars($dados['condicoesMedicas'] ?? '') ?>"><br>
+
+            <label for="medicamentosUso">Medicamentos em Uso:</label>
+            <input type="text" name="medicamentosUso" value="<?= htmlspecialchars($dados['medicamentosUso'] ?? '') ?>"><br>
+
+            <label for="resticaoAlimentar">Restrições Alimentares:</label>
+            <input type="text" name="resticaoAlimentar" value="<?= htmlspecialchars($dados['resticoesAlimentar'] ?? '') ?>"><br>
+
+            <label for="alergias">Alergias:</label>
+            <input type="text" name="alergias" value="<?= htmlspecialchars($dados['alergias'] ?? '') ?>"><br>
+            <?php
+            break;
+    }
+    ?>
+
+    <br><button type="submit">Salvar Alterações</button>
+</form>
+
+</body>
+</html>

@@ -1,11 +1,18 @@
 <?php
 require_once "ConexaoBD.php";
 session_start();
+//Varifica se logado
+if (isset($_SESSION["logado"]) && $_SESSION["logado"]) {
+    header("Location: /Index.php"); // ou outro destino apropriado
+    exit;
+}
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $mensagemErro = "";
+
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["password"])) {
     $email = trim($_POST["email"]);
@@ -29,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["pass
                 header("Location: /");
                 exit;
             } else {
-                $mensagemErro = "Senha incorreta.";
+                $mensagemErro = "Usuário ou senha incorreto!!";
             }
         } else {
-            $mensagemErro = "Usuário não encontrado.";
+            $mensagemErro = "Usuário ou senha incorreto!!";
         }
     } catch (PDOException $e) {
         $mensagemErro = "Erro de banco de dados: " . $e->getMessage();
@@ -83,14 +90,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["pass
 
             <div class="header-btn">
                 <div class="div-button d-flex justify-content-center mt-3">
-                    <button type="submit" class="btn btn-outline-primary">Logar</button>
+                    <?php if (isset($_SESSION["logado"]) && $_SESSION["logado"]): ?>
+                        <form method="post" action="/PHP/Logout.php">
+                            <button type="submit" class="btn btn-outline-danger">Logout</button>
+                        </form>
+                    <?php else: ?>
+                        <form method="post" action="/PHP/Logar.php">
+                            <button type="submit" class="btn btn-outline-primary">Logar</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
-                <div class="div-button d-flex justify-content-center mt-2">
-                    <a class="btn btn-outline-danger" href="/PHP/ResetSenha.php">Esqueci minha senha</a>
-                </div>
-                <div class="div-button d-flex justify-content-center mt-2">
-                    <a class="btn btn-outline-warning" href="/Index.php">Voltar</a>
-                </div>
+            </div>
+
+
+            <div class="div-button d-flex justify-content-center mt-2">
+                <a class="btn btn-outline-danger" href="/PHP/ResetSenha.php">Esqueci minha senha</a>
+            </div>
+            <div class="div-button d-flex justify-content-center mt-2">
+                <a class="btn btn-outline-warning" href="/Index.php">Voltar</a>
+            </div>
             </div>
         </form>
     </main>
