@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "ConexaoBD.php";
+require_once "ConexaoBD.php"; // Importa conexão com banco
 
 // Validação do método
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -95,22 +95,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="mb-3">
         <label class="form-label">Tipo de Medicamento</label>
         <div class="form-check">
-          <input class="form-check-input tipo-medicamento" type="radio" id="semTarja" name="tipoMedicamento"
+          <input class="form-check-input tipo-medicamento" type="checkbox" id="semTarja" name="tipoMedicamento"
             value="Sem tarja" />
           <label class="form-check-label" for="semTarja">Sem tarja</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input tipo-medicamento" type="radio" id="tarjaAmarela" name="tipoMedicamento"
+          <input class="form-check-input tipo-medicamento" type="checkbox" id="tarjaAmarela" name="tipoMedicamento"
             value="Tarja amarela" />
           <label class="form-check-label" for="tarjaAmarela">Tarja amarela</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input tipo-medicamento" type="radio" id="tarjaVermelha" name="tipoMedicamento"
+          <input class="form-check-input tipo-medicamento" type="checkbox" id="tarjaVermelha" name="tipoMedicamento"
             value="Tarja vermelha" />
           <label class="form-check-label" for="tarjaVermelha">Tarja vermelha</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input tipo-medicamento" type="radio" id="tarjaPreta" name="tipoMedicamento"
+          <input class="form-check-input tipo-medicamento" type="checkbox" id="tarjaPreta" name="tipoMedicamento"
             value="Tarja preta" />
           <label class="form-check-label" for="tarjaPreta">Tarja preta</label>
         </div>

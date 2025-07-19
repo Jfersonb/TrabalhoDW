@@ -15,10 +15,10 @@ session_start();
 </head>
 
 <body>
-  
-<?php
-require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
-?>
+
+  <?php
+  require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
+  ?>
 
   <main class="container text-center mt-4">
     <h2 class="fw-bold text-dark">
@@ -79,26 +79,43 @@ require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php";
       Adicionar depois
     </p>
 
-    <div class="header-btn">
+    <!-- <div class="header-btn">
       <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/Logar.php">Logar</a>
-      <!-- <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
-        href="/PHP/CadastroUsuario.php">Novo Usuário</a> -->
-    </div>
+      <a type="button" class="btn btn-outline-secondary d-flex justify-content-center"
+        href="/PHP/CadastroUsuario.php">Novo Usuário</a>
+    </div> -->
 
-    
+    <?php
+    if (isset($_SESSION["logado"]) and $_SESSION["logado"]) {
+      ?>
+      <div class="header-btn mb-3">
+        <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/ListaPacientes.php">Acessar lista de pacientes</a>
+      </div>
+      <div class="header-btn">
+        <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/Logout.php">logout</a>
+      </div>
+      <?php
+    } else {
+      ?>
+      <div class="header-btn">
+        <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/Logar.php">Logar</a>
+      </div>
+      <?php
+    }
+    ?>
+
   </main>
 
   <footer class="footer">
     <a type="button" class="footer-btn btn btn-outline-secondary d-flex justify-content-center"
       href="/PHP/Informacao.php">Sobre</a>
-      <!-- <p class="mb d-flex justify-content-cente">© 2025 Vida Serena. Todos os direitos reservados.</p> -->
+    <!-- <p class="mb d-flex justify-content-cente">© 2025 Vida Serena. Todos os direitos reservados.</p> -->
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
     crossorigin="anonymous"></script>
 
-    
 </body>
 
 </html>

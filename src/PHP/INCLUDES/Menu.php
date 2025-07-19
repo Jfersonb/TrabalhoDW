@@ -11,26 +11,12 @@
           <li class="nav-item">
             <a class="nav-link" href="/Index.php">Página principal</a>
           </li>
-
           <?php
-          if (isset($_SESSION["logado"]) && $_SESSION["logado"]) {
+          if (isset($_SESSION["logado"]) and $_SESSION["logado"]) {
             ?>
             <li class="nav-item">
               <a class="nav-link" href="/PHP/Logout.php">Logout</a>
             </li>
-
-            <?php
-             if (isset($_SESSION['perfil'], $_SESSION['id'])) 
-             { ?>
-              <li class="nav-item">
-                <a class="nav-link" href="/PHP/Editar.php?id=<?= $_SESSION['id'] ?>">Editar Perfil</a>
-              </li>
-            <?php 
-            }
-             ?>
-
-
-
             <?php
           } else {
             ?>
@@ -40,9 +26,8 @@
             <?php
           }
           ?>
-
           <?php
-          if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "admin") {
+          if (isset($_SESSION['perfil']) and $_SESSION['perfil'] == "admin") {
             ?>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -54,6 +39,15 @@
                   <hr class="dropdown-divider" />
                 </li>
               </ul>
+            </li>
+            <?php
+          }
+          ?>
+          <?php
+          if (isset($_SESSION['perfil']) and $_SESSION['perfil'] == "usuario") {
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="/PHP/ListaPacientes.php">Lista de Pacientes</a>
             </li>
             <?php
           }

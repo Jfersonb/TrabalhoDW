@@ -4,7 +4,7 @@ require_once 'Logado.php';
 
 // Só processa o formulário se for uma requisição POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once 'ConexaoBD.php';
+    require_once 'ConexaoBD.php'; // Importa conexão com banco
     // Função para limpar máscara de CPF e telefone
     function limparMascara($str)
     {
