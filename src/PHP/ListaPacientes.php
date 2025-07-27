@@ -1,31 +1,35 @@
 <?php
-require_once 'Logado.php'; // Verifica se está logado
-require_once 'ConexaoBD.php'; // Importa conexão com banco
+require_once 'Logado.php';
+require_once 'ConexaoBD.php';
 
-// Bloquear acesso se o perfil não for 'usuario'
 if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] !== 'usuario') {
     header("Location: /PHP/Logar.php");
     exit;
 }
 
-// Continua execução se for perfil 'usuario'
 $idUsuario = $_SESSION['id'];
-$busca = $_GET['busca'] ?? '';
+$busca = strtolower($_GET['busca'] ?? '');
 
-// Consulta pacientes apenas do usuário logado
 try {
     if (!empty($busca)) {
         $sql = $conn->prepare("
-            SELECT * FROM cadastroIdoso 
-            WHERE id_usuario = :idUsuario 
-              AND responsavel LIKE :busca
+            SELECT c.*, u.nome AS nomeIdoso
+            FROM cadastroIdoso c
+            INNER JOIN cadastroUsers u ON c.id_usuario = u.id
+            WHERE c.id_usuario = :idUsuario
+              AND (
+                  LOWER(c.responsavel) LIKE :busca
+                  OR LOWER(u.nome) LIKE :busca
+              )
         ");
         $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
-        $sql->bindValue(":busca", "%" . $busca . "%", PDO::PARAM_STR);
+        $sql->bindValue(":busca", "%$busca%", PDO::PARAM_STR);
     } else {
         $sql = $conn->prepare("
-            SELECT * FROM cadastroIdoso 
-            WHERE id_usuario = :idUsuario
+            SELECT c.*, u.nome AS nomeIdoso
+            FROM cadastroIdoso c
+            INNER JOIN cadastroUsers u ON c.id_usuario = u.id
+            WHERE c.id_usuario = :idUsuario
         ");
         $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
     }
@@ -39,9 +43,9 @@ try {
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,6 +56,7 @@ try {
     <link rel="stylesheet" href="/CSS/ListaPacientes.css" />
     <link rel="stylesheet" href="/CSS/Style.css" />
 </head>
+
 <body>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/PHP/INCLUDES/Menu.php"; ?>
@@ -61,7 +66,7 @@ try {
 
         <form method="GET" class="mb-3">
             <div class="input-group">
-                <input type="text" name="busca" class="form-control" placeholder="Buscar por responsável..."
+                <input type="text" name="busca" class="form-control" placeholder="Buscar por responsável ou idoso..."
                     value="<?= htmlspecialchars($busca) ?>">
                 <button class="btn btn-outline-primary" type="submit">Buscar</button>
                 <a href="ListaPacientes.php" class="btn btn-outline-secondary">Limpar</a>
@@ -75,6 +80,7 @@ try {
                 <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
+                            <th>Nome do Idoso</th>
                             <th>Responsável</th>
                             <th>Condições Médicas</th>
                             <th>Medicamentos em Uso</th>
@@ -85,6 +91,7 @@ try {
                     <tbody>
                         <?php foreach ($pacientes as $p): ?>
                             <tr>
+                                <td><?= htmlspecialchars($p['nomeIdoso']) ?></td>
                                 <td><?= htmlspecialchars($p['responsavel']) ?></td>
                                 <td><?= htmlspecialchars($p['condicoesMedicas']) ?></td>
                                 <td><?= htmlspecialchars($p['medicamentosUso']) ?></td>
@@ -104,4 +111,5 @@ try {
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
