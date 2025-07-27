@@ -88,16 +88,6 @@ session_start();
     <?php
     if (isset($_SESSION["logado"]) and $_SESSION["logado"]) {
       ?>
-      <?php
-    if (isset($_SESSION["usuario"]) && !empty($_SESSION["usuario"])) {
-      ?>
-      <div class="header-btn mb-3">
-        <a type="button" class="btn btn-outline-primary d-flex justify-content-center"
-          href="/PHP/ListaPacientes.php">Acessar lista de pacientes</a>
-      </div>
-      <?php
-    }
-    ?>
       <div class="header-btn">
         <a type="button" class="btn btn-outline-primary d-flex justify-content-center" href="/PHP/Logout.php">logout</a>
       </div>
@@ -110,6 +100,7 @@ session_start();
       <?php
     }
     ?>
+
 
   </main>
 
