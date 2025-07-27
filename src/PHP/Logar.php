@@ -29,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["pass
                 header("Location: /");
                 exit;
             } else {
-                $mensagemErro = "Senha incorreta.";
+                $mensagemErro = "Senha ou usuário incorreto!";
             }
         } else {
-            $mensagemErro = "Usuário não encontrado.";
+            $mensagemErro = "Senha ou usuário incorreto!";
         }
     } catch (PDOException $e) {
         $mensagemErro = "Erro de banco de dados: " . $e->getMessage();
