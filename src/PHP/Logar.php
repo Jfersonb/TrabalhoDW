@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["pass
         $sql = $conn->prepare("SELECT * FROM cadastroUsers WHERE email = :email");
         $sql->bindValue(":email", $email);
         $sql->execute();
-
         $User = $sql->fetch(PDO::FETCH_ASSOC);
 
         if ($User) {
@@ -25,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"], $_POST["pass
             if ($senhaDigitadaHash === $User["senha"]) {
                 $_SESSION["logado"] = true;
                 $_SESSION["id"] = $User["id"];
+                $_SESSION["nome"] = $User["nome"];
                 $_SESSION["perfil"] = $User["perfil"];
                 header("Location: /");
                 exit;
