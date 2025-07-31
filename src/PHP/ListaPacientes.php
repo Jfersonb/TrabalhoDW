@@ -7,7 +7,7 @@ if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] !== 'usuario') {
     exit;
 }
 
-$idUsuario = $_SESSION['id'];
+$idUsuario = $_SESSION["id"];
 $busca = strtolower($_GET['busca'] ?? '');
 
 try {
@@ -16,22 +16,17 @@ try {
             SELECT c.*, u.nome AS nomeIdoso
             FROM cadastroIdoso c
             INNER JOIN cadastroUsers u ON c.id_usuario = u.id
-            WHERE c.id_usuario = :idUsuario
-              AND (
-                  LOWER(c.responsavel) LIKE :busca
+            WHERE 
+            LOWER(c.responsavel) LIKE :busca
                   OR LOWER(u.nome) LIKE :busca
-              )
         ");
-        $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
         $sql->bindValue(":busca", "%$busca%", PDO::PARAM_STR);
     } else {
         $sql = $conn->prepare("
             SELECT c.*, u.nome AS nomeIdoso
             FROM cadastroIdoso c
             INNER JOIN cadastroUsers u ON c.id_usuario = u.id
-            WHERE c.id_usuario = :idUsuario
         ");
-        $sql->bindValue(":idUsuario", $idUsuario, PDO::PARAM_INT);
     }
 
     $sql->execute();
